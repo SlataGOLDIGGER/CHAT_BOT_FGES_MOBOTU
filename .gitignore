@@ -216,3 +216,44 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# Projet NLP A3-B1
+# ---------------------------------------------------------------------------
+
+# Environnements et dépendances installées
+.venv*/
+node_modules/
+.vercel/
+
+# Secrets : jamais dans le dépôt
+.env.*
+*.pem
+*.key
+
+# Poids de modèles, moteurs et données calculées
+*.gguf
+*.onnx
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.npy
+b1/models/*
+!b1/models/README.md
+b1/runtime/*
+!b1/runtime/README.md
+artifacts/*
+!artifacts/README.md
+
+# Jeu de test scellé et feuilles d'annotation du test : ne doivent jamais exister dans le dépôt
+**/questions_test*.jsonl
+**/feuille_test*.csv
+**/cle_test*.json
+
+# Systèmes et éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
