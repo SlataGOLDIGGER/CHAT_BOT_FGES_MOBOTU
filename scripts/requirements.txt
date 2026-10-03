@@ -1,0 +1,9 @@
+# Environnement .venv-data (Python 3.12.13), versions exactes
+# Installation : uv pip install --only-binary :all: -r scripts/requirements.txt
+numpy==2.5.3
+requests==2.34.2
+tokenizers==0.23.2
+huggingface-hub==1.33.0
+rank-bm25==0.2.2
+scikit-learn==1.9.1
+psutil==7.2.2

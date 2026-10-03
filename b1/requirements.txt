@@ -1,0 +1,10 @@
+# Environnement .venv-b1 (Python 3.12.13), versions exactes
+# Installation : uv pip install --only-binary :all: -r b1/requirements.txt
+# onnxruntime 1.23.2 est la dernière version qui fournit une roue pour les Mac Intel.
+numpy==2.5.3
+onnxruntime==1.23.2
+tokenizers==0.23.2
+huggingface-hub==1.33.0
+requests==2.34.2
+psutil==7.2.2
+streamlit==1.64.0

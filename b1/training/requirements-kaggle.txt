@@ -1,0 +1,10 @@
+# Adaptation QLoRA (notebook Kaggle, GPU) : PyTorch reste celui de l'image Kaggle.
+transformers==5.17.0
+tokenizers==0.23.2
+huggingface-hub==1.33.0
+safetensors==0.8.0
+peft==0.21.0
+accelerate==1.15.0
+bitsandbytes==0.50.2
+sentencepiece==0.2.2
+protobuf==7.36.2

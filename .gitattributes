@@ -1,0 +1,17 @@
+# Fins de ligne LF dans le dépôt, quel que soit le système du poste
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Fichiers sources du corpus : octets conservés tels quels (leurs empreintes SHA-256 sont versionnées)
+shared/corpus/source/*.xml -text
+
+# Questions : plusieurs auteurs ajoutent des lignes indépendantes en parallèle ; une fusion locale garde les lignes des deux côtés
+shared/eval/questions_train.jsonl merge=union
+shared/eval/questions_dev.jsonl merge=union
+
+# Binaires
+*.bin binary
+*.png binary
+*.jpg binary
+*.pdf binary

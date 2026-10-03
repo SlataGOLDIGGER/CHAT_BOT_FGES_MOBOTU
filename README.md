@@ -1,78 +1,76 @@
-# CHAT_BOT_FGES_MOBOTU
+# NLP A3-B1 — recherche sémantique et assistant sourcé sur les stages
 
+Projet du module NLP 2 (M2 Data & IA, FGES). Deux applications de traitement du langage sur un même corpus : sept fiches Service-Public consacrées aux stages des élèves et des étudiants en France.
 
-## Travailler sur le projet
+| Volet | Cas d'usage | Régime technique | Où |
+|---|---|---|---|
+| A | A3 — Recherche sémantique en corpus fermé | site statique, inférence dans le navigateur (Transformers.js), aucune génération | `a3/` |
+| B | B1 — Assistant réglementaire sourcé | application locale, modèle open-weights adapté (QLoRA), architecture RAG, citations et abstention | `b1/` |
 
-On ne travaille jamais directement sur `main` : chaque tâche se fait sur sa propre branche, puis passe par une pull request relue avant d'arriver sur `main`.
+Le corpus, les questions d'évaluation et les scripts de préparation sont communs aux deux volets (`shared/`, `scripts/`).
 
-1. Cloner le dépôt (une seule fois) :
+## Installation
 
-   ```bash
-   git clone https://github.com/SlataGOLDIGGER/CHAT_BOT_FGES_MOBOTU.git
-   cd CHAT_BOT_FGES_MOBOTU
-   ```
+Prérequis figés : Git, Python 3.12.13 (environnements créés avec `uv`), Node.js 24 LTS. L'environnement réel de chaque poste est consigné dans `docs/environnement/`, à partir du modèle `MODELE.md`.
 
-2. Se placer sur sa branche.
-   - Nouvelle tâche : partir de `main` à jour, puis créer la branche avec le nom indiqué dans la fiche de la tâche (forme `NLP-<numéro>-<mots-clés>`) :
+```bash
+git clone <adresse du dépôt> nlp-a3-b1
+cd nlp-a3-b1
+uv venv --python 3.12.13 .venv-data
+uv venv --python 3.12.13 .venv-b1
+```
 
-     ```bash
-     git switch main
-     git pull                                # mettre à jour votre branche main locale avec la version de GitHub
-     git switch -c NLP-<numéro>-<mots-clés>
-     ```
+Environnement de préparation des données (macOS et Linux ; sous Windows, `.venv-data\Scripts\Activate.ps1`) :
 
-   - Tâche déjà commencée (la branche existe déjà) :
+```bash
+source .venv-data/bin/activate
+uv pip install --only-binary :all: -r scripts/requirements.txt
+```
 
-     ```bash
-     git fetch                               # récupérer depuis GitHub les nouveautés (branches, commits), sans toucher à vos fichiers
-     git switch NLP-<numéro>-<mots-clés>
-     git pull                                # si la branche a déjà été poussée : mettre à jour votre branche locale avec la version de GitHub
-     ```
+Environnement du volet B :
 
-3. Vérifier que vous êtes sur votre branche : `git branch --show-current` doit afficher le nom de votre branche, et non `main`.
+```bash
+source .venv-b1/bin/activate
+uv pip install --only-binary :all: -r b1/requirements.txt
+```
 
-4. Faire votre travail, puis valider uniquement vos fichiers, sur votre branche :
+Site du volet A :
 
-   ```bash
-   git status                        # vérifier la branche et les fichiers modifiés
-   git add <fichier1> <fichier2>     # les fichiers exacts, pas « git add . »
-   git commit -m "NLP-<numéro> <Verbe à l'infinitif> <objet>"
-   ```
+```bash
+cd a3
+npm ci
+```
 
-5. Pousser votre branche :
-   - la première fois : `git push -u origin NLP-<numéro>-<mots-clés>`
-   - les fois suivantes : `git push`
+## Lancement
 
-6. Faire relire votre travail, puis le fusionner sur `main` par une pull request.
+**Volet A** (dossier `a3/`) : `npm run dev` ouvre le site en local ; `npm run build` produit le site statique dans `a3/dist/` ; `npm run index` reconstruit l'index des passages après toute modification du corpus ou du modèle. Le site publié est construit par Vercel à chaque fusion sur `main`.
 
-   Ne fusionnez jamais sur `main` sans relecture, et ne faites jamais de `git merge` ni de `git push` sur `main` depuis votre poste. Une pull request est une **demande** de fusion : elle propose d'ajouter les commits de votre branche dans `main`, mais ne fusionne rien par elle-même. La fusion n'a lieu qu'après la relecture, par un bouton sur le site de GitHub.
+**Volet B** (racine du dépôt, environnement `.venv-b1`) :
 
-   Si vous avez un doute sur votre travail, faites-le contrôler par un agent IA avant de créer la pull request.
+```bash
+python -m b1.scripts.installer_llama        # une fois : moteur llama.cpp figé
+python -m b1.scripts.telecharger_modeles    # une fois : modèles à révision figée, empreintes vérifiées
+python -m b1.scripts.lancer_serveur         # terminal 1, laissé ouvert
+streamlit run b1/app/app.py --server.address 127.0.0.1 --server.headless true --browser.gatherUsageStats false --client.toolbarMode minimal   # terminal 2, puis ouvrir http://127.0.0.1:8501
+```
 
-   - **Créer la pull request, depuis votre branche** (pas depuis `main`), une fois tous vos commits poussés (étape 5) :
+Toutes les commandes Python s'exécutent depuis la racine du dépôt sous la forme `python -m paquet.module`.
 
-     ```bash
-     git branch --show-current               # doit afficher NLP-<numéro>-<mots-clés>, et non main
-     git status                              # doit indiquer « nothing to commit » et « up to date with 'origin/NLP-…' »
-     gh pr create --web                      # ouvrir dans le navigateur la page de création de la pull request
-     ```
+## Organisation du dépôt
 
-     `gh` est l'outil en ligne de commande de GitHub : installez-le, puis lancez `gh auth login` une seule fois pour le relier à votre compte. `gh pr create` prend la branche sur laquelle vous vous trouvez comme branche à fusionner, et `main` comme branche d'arrivée : c'est pour cela qu'il faut être sur votre branche.
+```text
+a3/          site du volet A (Vite, Web Worker, index statique) et affinage de l'encodeur
+b1/          application locale du volet B (RAG, interface, évaluation, adaptation)
+shared/      corpus versionné avec manifeste, questions d'entraînement et de développement
+scripts/     préparation et contrôle des données, évaluation de la recherche
+docs/        cadrage, décisions, conventions, architectures, protocole, résultats
+artifacts/   sorties calculées, non suivies par Git
+```
 
-     Sans `gh` : sur la page du dépôt GitHub, cliquez sur le bouton **Compare & pull request** qui apparaît après votre `git push`, ou sur **Pull requests** → **New pull request**, puis choisissez `base: main` et `compare: NLP-<numéro>-<mots-clés>`.
+## Sources et licence du corpus
 
-   - **Remplir la pull request.** Sur la page qui s'ouvre, vérifiez en haut `base: main ← compare: NLP-<numéro>-<mots-clés>`. Donnez un titre (`NLP-<numéro> <titre de la tâche>`), décrivez ce que vous avez fait, ajoutez dans **Reviewers** (colonne de droite) votre binôme ou au moins une ou deux autres personnes du projet, puis cliquez sur **Create pull request**.
+Source : Service-Public.gouv.fr, Direction de l'information légale et administrative (DILA), jeu de données « Fiches pratiques et ressources de Service-Public.gouv.fr Particuliers », réutilisé sous Licence Ouverte / Open Licence 2.0. La date de collecte et les empreintes figurent dans `shared/corpus/manifest.json`. Les modèles utilisés gardent leur propre licence (MIT pour l'encodeur E5, Apache-2.0 pour Qwen3-4B-Instruct-2507).
 
-   - **Relecture.** Les relecteurs ouvrent la pull request, lisent les changements dans l'onglet **Files changed**, puis cliquent sur **Review changes** et choisissent **Approve** (approuver) ou **Request changes** (demander des corrections). Pour corriger, restez sur votre branche, modifiez vos fichiers, puis `git add`, `git commit` et `git push` comme aux étapes 4 et 5 : la pull request se met à jour toute seule, inutile d'en créer une autre.
+## Documentation
 
-   - **Fusionner, seulement après approbation.** Sur la page de la pull request, cliquez sur **Squash and merge**, puis **Confirm squash and merge**, puis **Delete branch**. Si le bouton affiche **Merge pull request**, choisissez **Squash and merge** avec la flèche à côté. « Squash and merge » regroupe tous les commits de votre branche en un seul commit sur `main`. **Delete branch** supprime la branche sur GitHub, pas sur votre poste.
-
-   - **Après la fusion**, sur votre poste :
-
-     ```bash
-     git switch main
-     git pull                                # mettre à jour votre branche main locale : elle reçoit le commit que vous venez de fusionner
-     git branch -D NLP-<numéro>-<mots-clés>  # supprimer la branche terminée sur votre poste
-     ```
-
-     Pour la tâche suivante, recommencez à l'étape 2 avec une nouvelle branche : ne continuez pas à travailler sur une branche déjà fusionnée.
+`docs/cadrage.md` (périmètre, hypothèses, risques, critères de réussite, rôles), `docs/decisions.md` (arbitrages datés), `docs/conventions.md` (branches, commits, pull requests), `docs/architecture_A3.md`, `docs/architecture_B1.md`, `docs/protocole_evaluation.md`, `docs/resultats/`.
