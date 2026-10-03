@@ -1,6 +1,6 @@
 ## Ticket
 
-NLP-… (le titre de la pull request commence par cette clé)
+MOBOTU-… (le titre de la pull request commence par cette clé)
 
 ## Ce que change cette pull request
 
