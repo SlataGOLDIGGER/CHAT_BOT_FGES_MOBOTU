@@ -1,0 +1,10 @@
+# Affinage de l'encodeur (notebook Kaggle, CPU)
+# PyTorch s'installe à part depuis l'index CPU officiel :
+#   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
+transformers==5.17.0
+tokenizers==0.23.2
+huggingface-hub==1.33.0
+safetensors==0.8.0
+onnx==1.23.0
+onnxscript==0.7.2
+onnxruntime==1.30.0
