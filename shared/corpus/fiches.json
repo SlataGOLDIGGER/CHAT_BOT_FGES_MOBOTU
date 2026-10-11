@@ -1,0 +1,5 @@
+{
+  "version_corpus": "1",
+  "jeu_de_donnees": "https://lecomarquage.service-public.gouv.fr/vdd/3.5/part/zip/vosdroits-latest.zip",
+  "fiches": ["F16734", "F32131", "F637"]
+}

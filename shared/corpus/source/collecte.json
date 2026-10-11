@@ -1,0 +1,23 @@
+{
+  "date_collecte": "2026-10-11",
+  "url_archive": "https://lecomarquage.service-public.gouv.fr/vdd/3.5/part/zip/vosdroits-latest.zip",
+  "sha256_archive": "43437e8fad0732abd5c0e7a7853a215eab87f2d8e839df01e6af5f250f45ab4c",
+  "octets_archive": 24140880,
+  "fiches": {
+    "F16734": {
+      "fichier": "source/F16734.xml",
+      "sha256": "2ab699e95832310946107684f6a5c9e877353fc552057eff78189734a85d00c3",
+      "octets": 32961
+    },
+    "F32131": {
+      "fichier": "source/F32131.xml",
+      "sha256": "012019b2f444fb6e2de9f9b5cabd1d0a6b6eb50b7512adf44211a7f0a7622863",
+      "octets": 19120
+    },
+    "F637": {
+      "fichier": "source/F637.xml",
+      "sha256": "738bd8fbe4ed69243e489a6ec57d14c90bec5204bba988cc7632a8a3a1006191",
+      "octets": 13357
+    }
+  }
+}
