@@ -1,8 +1,8 @@
 {
-  "date_collecte": "2026-10-11",
+  "date_collecte": "2026-10-13",
   "url_archive": "https://lecomarquage.service-public.gouv.fr/vdd/3.5/part/zip/vosdroits-latest.zip",
-  "sha256_archive": "43437e8fad0732abd5c0e7a7853a215eab87f2d8e839df01e6af5f250f45ab4c",
-  "octets_archive": 24140880,
+  "sha256_archive": "2e74a7e4a19d54134f310b132cc6f91c07adbea67903aaaea606682a7f6f786f",
+  "octets_archive": 24144769,
   "fiches": {
     "F16734": {
       "fichier": "source/F16734.xml",
@@ -18,6 +18,26 @@
       "fichier": "source/F637.xml",
       "sha256": "738bd8fbe4ed69243e489a6ec57d14c90bec5204bba988cc7632a8a3a1006191",
       "octets": 13357
+    },
+    "F1882": {
+      "fichier": "source/F1882.xml",
+      "sha256": "95a1a28ec9340ed83be5d3a412bd6d175b238932a66dd583a0f6bdf5f7cd3121",
+      "octets": 35918
+    },
+    "F13879": {
+      "fichier": "source/F13879.xml",
+      "sha256": "b6acff61071d6c65fa56299383c7ad4e49c255a8c94c53605cad769d698d9351",
+      "octets": 7933
+    },
+    "F34857": {
+      "fichier": "source/F34857.xml",
+      "sha256": "9cb1472fbd792e173e834811be496634bf4eb7ab81efcca7aa25ce7bb55ba726",
+      "octets": 5960
+    },
+    "F13881": {
+      "fichier": "source/F13881.xml",
+      "sha256": "fd561123d61227fc2bb7eb8851770e0a313d25f49415957f0248791862d3ef11",
+      "octets": 3548
     }
   }
 }
