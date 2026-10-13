@@ -1,0 +1,4 @@
+{
+  "train": ["Fonctionnaire stagiaire (titularisation, stage probatoire)", "Stage à l'étranger ou dans un organisme européen", "Prime d'activité et aides sociales", "Contrat d'apprentissage et alternance", "Job étudiant, CDD, intérim", "Règlement intérieur et pédagogie de l'établissement"],
+  "dev": ["Stage de sensibilisation à la sécurité routière", "Titre de séjour d'un stagiaire étranger"]
+}
