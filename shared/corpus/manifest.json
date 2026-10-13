@@ -1,0 +1,61 @@
+{
+  "version_corpus": "1",
+  "date_collecte": "2026-10-11",
+  "source": {
+    "editeur": "Direction de l'information légale et administrative (DILA)",
+    "jeu_de_donnees": "Fiches pratiques et ressources de Service-Public.gouv.fr Particuliers",
+    "page": "https://www.data.gouv.fr/datasets/fiches-pratiques-et-ressources-de-service-public-gouv-fr-particuliers",
+    "url_archive": "https://lecomarquage.service-public.gouv.fr/vdd/3.5/part/zip/vosdroits-latest.zip",
+    "sha256_archive": "43437e8fad0732abd5c0e7a7853a215eab87f2d8e839df01e6af5f250f45ab4c"
+  },
+  "licence": {
+    "nom": "Licence Ouverte / Open Licence version 2.0 (Etalab)",
+    "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+  },
+  "attribution": "Source : Service-Public.gouv.fr, Direction de l'information légale et administrative (DILA), fiches F16734, F32131, F637, données collectées le 2026-10-11, réutilisées sous Licence Ouverte 2.0.",
+  "fiches": [
+    {
+      "fiche_id": "F16734",
+      "titre": "Stage d'un étudiant en milieu professionnel",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F16734",
+      "date_maj": "2026-01-01",
+      "sha256_xml": "2ab699e95832310946107684f6a5c9e877353fc552057eff78189734a85d00c3",
+      "sections": 24
+    },
+    {
+      "fiche_id": "F32131",
+      "titre": "Gratification minimale d'un stagiaire étudiant ou élève dans une entreprise",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32131",
+      "date_maj": "2026-01-01",
+      "sha256_xml": "012019b2f444fb6e2de9f9b5cabd1d0a6b6eb50b7512adf44211a7f0a7622863",
+      "sections": 10
+    },
+    {
+      "fiche_id": "F637",
+      "titre": "Un étudiant peut-il faire un stage dans la fonction publique ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F637",
+      "date_maj": "2026-01-01",
+      "sha256_xml": "738bd8fbe4ed69243e489a6ec57d14c90bec5204bba988cc7632a8a3a1006191",
+      "sections": 5
+    }
+  ],
+  "version_decoupage": "1",
+  "fichiers": {
+    "sections.jsonl": {
+      "sha256": "1e54c5696f493d845b82cf791e5f485d13f8ca7a457c1233cffbb7e61cb4f723",
+      "lignes": 39
+    },
+    "passages_section.jsonl": {
+      "sha256": "6e1edca4ea4d05fcf2560410aa29dc86ddea20de3ee7cd7225ed3bf75ab7b053",
+      "lignes": 40
+    },
+    "passages_fenetre.jsonl": {
+      "sha256": "9b77546c1e9a8539687663c977a13bc0a1ad69847e2904d169b903e6234c33f8",
+      "lignes": 65
+    },
+    "passages_paragraphe.jsonl": {
+      "sha256": "75596f2f674596f780d4368f328ded83ecebf6976e38d40a8df22356f09ee064",
+      "lignes": 121
+    }
+  }
+}
