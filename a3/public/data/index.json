@@ -1,0 +1,89 @@
+{
+  "production": {
+    "modele": "pre",
+    "strategie": "paragraphe"
+  },
+  "combinaisons": {
+    "pre/section": {
+      "passages": "passages-section-83ea0769b7.json",
+      "vecteurs": "vecteurs-pre-section-8c97cca116.bin",
+      "nombre": 75,
+      "cle": "8c97cca116d18de35682a9cbd8bdd22e71905e8cd3c4e6dd26205d12b3379587",
+      "sha256Passages": "83ea0769b7807fe367947a0fe5ff6ae2a0a9de80c05181c31bce77164135dea4"
+    },
+    "pre/fenetre": {
+      "passages": "passages-fenetre-ac6d800067.json",
+      "vecteurs": "vecteurs-pre-fenetre-94f514bb59.bin",
+      "nombre": 113,
+      "cle": "94f514bb595e1c387fd7ccf7a728642951d168e28fe6c5449bff2e6bc879a42d",
+      "sha256Passages": "ac6d800067ed02ef2c991f60cdd2068c7a8fbc5a401c2448e816972de3c13e4e"
+    },
+    "pre/paragraphe": {
+      "passages": "passages-paragraphe-c486626668.json",
+      "vecteurs": "vecteurs-pre-paragraphe-f7aca34f50.bin",
+      "nombre": 256,
+      "cle": "f7aca34f50e73451bc4d42df5ed5f6ed81587c9d094296ace892f89d98e241b1",
+      "sha256Passages": "c486626668a8400a1e4a5f9e14a43d385397e5205d8a55685aac4b0f2726cc4a"
+    }
+  },
+  "modeles": {
+    "pre": {
+      "depot": "Xenova/multilingual-e5-small",
+      "revision": "761b726dd34fb83930e26aab4e9ac3899aa1fa78",
+      "dtype": "q8"
+    }
+  },
+  "dimension": 384,
+  "versionCorpus": "2",
+  "versionDecoupage": "1",
+  "dateCollecte": "2026-10-13",
+  "attribution": "Source : Service-Public.gouv.fr, Direction de l'information légale et administrative (DILA), fiches F16734, F32131, F637, F1882, F13879, F34857, F13881, données collectées le 2026-10-13, réutilisées sous Licence Ouverte 2.0.",
+  "licence": {
+    "nom": "Licence Ouverte / Open Licence version 2.0 (Etalab)",
+    "url": "https://github.com/etalab/licence-ouverte/blob/master/LO.md"
+  },
+  "fiches": [
+    {
+      "id": "F16734",
+      "titre": "Stage d'un étudiant en milieu professionnel",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F16734",
+      "dateMaj": "2026-01-01"
+    },
+    {
+      "id": "F32131",
+      "titre": "Gratification minimale d'un stagiaire étudiant ou élève dans une entreprise",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F32131",
+      "dateMaj": "2026-01-01"
+    },
+    {
+      "id": "F637",
+      "titre": "Un étudiant peut-il faire un stage dans la fonction publique ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F637",
+      "dateMaj": "2026-01-01"
+    },
+    {
+      "id": "F1882",
+      "titre": "Stages d'un jeune de moins de 16 ans : quelles sont les règles ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F1882",
+      "dateMaj": "2025-10-21"
+    },
+    {
+      "id": "F13879",
+      "titre": "Embauche à la fin d'un stage : quelles conséquences sur la période d'essai ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F13879",
+      "dateMaj": "2026-02-20"
+    },
+    {
+      "id": "F34857",
+      "titre": "Embauche à la fin d'un stage : quelles conséquences sur l'ancienneté ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F34857",
+      "dateMaj": "2026-02-20"
+    },
+    {
+      "id": "F13881",
+      "titre": "Un stagiaire en entreprise peut-il bénéficier du comité social et économique (CSE) ?",
+      "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F13881",
+      "dateMaj": "2026-04-10"
+    }
+  ]
+}
