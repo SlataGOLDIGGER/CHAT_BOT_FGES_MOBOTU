@@ -10,11 +10,40 @@
 <body>
   <main>
     <h1>Stages : trouver le bon passage</h1>
-    <p>Site en construction : la recherche arrive à la mi-parcours.</p>
+    <p>Posez une question : le site retrouve les passages les plus proches dans des fiches officielles.</p>
 
+    <section aria-labelledby="titre-perimetre">
+      <h2 id="titre-perimetre">Ce que vous pouvez interroger</h2>
+      <p id="perimetre-resume">Chargement du périmètre…</p>
+      <ul id="liste-fiches"></ul>
+    </section>
 
-    <pre id="sortie"></pre>
+    <section aria-labelledby="titre-recherche">
+      <h2 id="titre-recherche">Votre question</h2>
+      <form id="formulaire" role="search">
+        <label for="question">Question en langage naturel</label>
+        <input id="question" type="search" autocomplete="off" maxlength="300" disabled />
+        <button id="bouton" type="submit" disabled>Rechercher</button>
+      </form>
+      <div id="etat" role="status" aria-live="polite">
+        <p id="message-etat">Préparation du moteur de recherche…</p>
+        <progress id="progres-index" max="100" value="0"></progress>
+        <progress id="progres-modele" max="100" value="0"></progress>
+        <span id="taille-modele"></span>
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-resultats">
+      <h2 id="titre-resultats">Passages trouvés</h2>
+      <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
+      <ol id="liste-resultats"></ol>
+    </section>
   </main>
+
+  <footer>
+    <p id="attribution"></p>
+    <p>Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur.</p>
+  </footer>
   <script type="module" src="/src/main.js"></script>
 </body>
 
