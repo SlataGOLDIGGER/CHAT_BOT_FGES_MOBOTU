@@ -49,3 +49,47 @@ Référence : XML source de `shared/corpus/source/` (collecte du 13/10/2026, qui
 | F637-5 | Une attestation de stage dans une administration est-elle remise au stagiaire ? | 229 | oui | sans objet | sans objet | aucun |
 
 **Écart E1.** L'introduction en tête de fiche (balise `Introduction`, hors de `Texte`) n'est reprise dans aucune section, alors qu'elle est affichée en tête de la page publiée : F16734, F32131 et F637. Impact faible : ces introductions résument la fiche, et les règles qu'elles citent figurent aussi dans le corps (durée maximale de 6 mois par année d'enseignement pour F637 ; « le stagiaire n'est pas considéré comme un salarié » pour F16734). Signalé à P1, qui choisit entre une section d'introduction et l'exclusion explicite dans `docs/architecture_A3.md`, section 1.
+
+## Version 2 (F1882, F13879, F34857, F13881) — relue le 19/10/2026 par P4
+
+Les 39 sections de la version 1 sont inchangées (mêmes identifiants, même texte qu'à l'extraction NLP-30). `python -m scripts.verifier_corpus` : « Corpus conforme : 7 fiches, 74 sections, version 2, découpage 1 ».
+
+| Section | Chemin | Caractères | Texte complet | Cas séparés | Tableaux et encadrés | Écart et action |
+|---|---|---|---|---|---|---|
+| F1882-1 | Visite d'information | 671 | oui | sans objet | oui | introduction de la fiche F1882 absente de toutes les sections (écart E1) : signalé à P1 |
+| F1882-1.1 | Visite d'information > Convention d'accueil obligatoire | 584 | oui | sans objet | sans objet | aucun |
+| F1882-1.2 | Visite d'information > Assurance | 484 | oui | sans objet | sans objet | aucun |
+| F1882-2 | Séquence d'observation au collège | 822 | oui | sans objet | oui | aucun |
+| F1882-2.1 | Séquence d'observation au collège > Convention d'accueil obligatoire | 590 | oui | sans objet | sans objet | aucun |
+| F1882-2.2 | Séquence d'observation au collège > Assurance | 484 | oui | sans objet | sans objet | aucun |
+| F1882-3 | Séquence d'observation au lycée | 1525 | oui | sans objet | oui | aucun |
+| F1882-3.1 | Séquence d'observation au lycée > Convention d'accueil obligatoire | 590 | oui | sans objet | sans objet | aucun |
+| F1882-3.2 | Séquence d'observation au lycée > Assurance | 484 | oui | sans objet | sans objet | aucun |
+| F1882-4 | Stage d'initiation en milieu professionnel | 908 | oui | sans objet | oui | aucun |
+| F1882-4.1.c1 | Stage d'initiation en milieu professionnel > Horaires > Avant 15 ans | 233 | oui | oui | sans objet | aucun |
+| F1882-4.1.c2 | Stage d'initiation en milieu professionnel > Horaires > À partir de 15 ans | 233 | oui | oui | sans objet | aucun |
+| F1882-4.2 | Stage d'initiation en milieu professionnel > Convention d'accueil obligatoire | 590 | oui | sans objet | sans objet | aucun |
+| F1882-4.3 | Stage d'initiation en milieu professionnel > Assurance | 484 | oui | sans objet | sans objet | aucun |
+| F1882-5 | Stage d'application en milieu professionnel | 901 | oui | sans objet | sans objet | aucun |
+| F1882-5.1.c1 | Stage d'application en milieu professionnel > Horaires > Avant 15 ans | 233 | oui | oui | sans objet | aucun |
+| F1882-5.1.c2 | Stage d'application en milieu professionnel > Horaires > À partir de 15 ans | 233 | oui | oui | sans objet | aucun |
+| F1882-5.2 | Stage d'application en milieu professionnel > Convention d'accueil obligatoire | 590 | oui | sans objet | sans objet | aucun |
+| F1882-5.3 | Stage d'application en milieu professionnel > Visite médicale | 117 | oui | sans objet | sans objet | aucun |
+| F1882-5.4 | Stage d'application en milieu professionnel > Assurance | 484 | oui | sans objet | sans objet | aucun |
+| F1882-6 | Période de formation en milieu professionnel | 632 | oui | sans objet | sans objet | aucun |
+| F1882-6.1.c1 | Période de formation en milieu professionnel > Horaires > Avant 16 ans | 474 | oui | oui | sans objet | aucun |
+| F1882-6.1.c2 | Période de formation en milieu professionnel > Horaires > À partir de 16 ans | 474 | oui | oui | sans objet | aucun |
+| F1882-6.2 | Période de formation en milieu professionnel > Convention d'accueil obligatoire | 590 | oui | sans objet | sans objet | aucun |
+| F1882-6.3 | Période de formation en milieu professionnel > Visite médicale | 129 | oui | sans objet | sans objet | aucun |
+| F1882-6.4 | Période de formation en milieu professionnel > Assurance | 155 | oui | sans objet | sans objet | aucun |
+| F13879-0 |  | 226 | oui | sans objet | sans objet | aucun |
+| F13879-c1 | L'embauche a lieu dans les 3 mois suivant la fin du stage | 103 | oui | oui | sans objet | aucun |
+| F13879-c1.c1 | L'embauche a lieu dans les 3 mois suivant la fin du stage > Emploi correspondant aux activités qui avaient été confiées au stagiaire | 544 | oui | oui | oui | aucun |
+| F13879-c1.c2 | L'embauche a lieu dans les 3 mois suivant la fin du stage > Emploi ne correspondant pas aux activités qui avaient été confiées au stagiaire | 755 | oui | oui | oui | aucun |
+| F13879-c2 | L'embauche a lieu plus de 3 mois suivant la fin du stage | 366 | oui | oui | oui | aucun |
+| F34857-0 |  | 242 | oui | sans objet | sans objet | aucun |
+| F34857-c1 | Au moins 2 mois de stage | 1026 | oui | oui | oui | aucun |
+| F34857-c2 | Moins de 2 mois de stage | 195 | oui | oui | sans objet | aucun |
+| F13881-0 |  | 686 | oui | sans objet | sans objet | aucun |
+
+Écart E1 également pour F1882 (règles de l'introduction reprises dans le corps) : signalé à P1. F13879, F34857 et F13881 n'ont pas d'introduction en tête de fiche.
