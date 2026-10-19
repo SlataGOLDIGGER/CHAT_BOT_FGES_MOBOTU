@@ -1,6 +1,6 @@
 // Web Worker : charge l'index et le modèle, encode les questions et classe les passages, sans bloquer la page.
 import { env } from '@huggingface/transformers';
-import { NB_RESULTATS } from './config.js';
+import { NB_CLASSEMENT_EVALUATION, NB_RESULTATS } from './config.js';
 import { classer, creerExtracteur, descripteur, encoder } from './moteur.js';
 
 env.allowLocalModels = false;
@@ -65,10 +65,49 @@ async function chercher(question) {
     });
 }
 
+// Classement complet de chaque question avec le moteur de production : c'est ce que mesure l'évaluation.
+async function evaluer(questions, combinaison) {
+    const lignes = [];
+    for (const [i, q] of questions.entries()) {
+        const meilleurs = classer(await encoder(extracteur, q.question, 'requete'), matrice, index.dimension,
+            NB_CLASSEMENT_EVALUATION);
+        lignes.push(JSON.stringify({
+            qid: q.qid, combinaison, classement: meilleurs.map(({ indice, score }) => (
+                { passage_id: passages[indice].id, section_id: passages[indice].section, score }))
+        }));
+        if ((i + 1) % 10 === 0) envoyer({ type: 'evaluation-progression', fait: i + 1, total: questions.length });
+    }
+    envoyer({ type: 'evaluation', contenu: `${lignes.join('\n')}\n`, nombre: lignes.length });
+}
+
+// Recalcule dans le navigateur les vecteurs de passages publiés et mesure l'écart avec l'index construit sous Node.
+async function diagnostic(nombre) {
+    const n = Math.min(nombre, passages.length);
+    const cosinus = [];
+    const debut = performance.now();
+    for (let i = 0; i < n; i += 1) {
+        const v = await encoder(extracteur, passages[i].encode, 'passage');
+        const ligne = matrice.subarray(i * index.dimension, (i + 1) * index.dimension);
+        cosinus.push(v.reduce((s, x, j) => s + x * ligne[j], 0));
+    }
+    const dureePassagesMs = performance.now() - debut;
+    const t = performance.now();
+    await encoder(extracteur, 'Combien est payé un stagiaire ?', 'requete');
+    envoyer({
+        type: 'diagnostic', mesures: {
+            passagesCompares: n, dureeEncodagePassagesMs: Math.round(dureePassagesMs),
+            cosinusMin: Math.min(...cosinus), cosinusMoyen: cosinus.reduce((s, x) => s + x, 0) / n,
+            latenceRequeteMs: Math.round(performance.now() - t), navigateur: navigator.userAgent
+        }
+    });
+}
+
 self.onmessage = async ({ data }) => {
     try {
         if (data.type === 'initialiser') await initialiser(data);
         else if (data.type === 'chercher') await chercher(data.question);
+        else if (data.type === 'evaluer') await evaluer(data.questions, data.combinaison);
+        else if (data.type === 'diagnostic') await diagnostic(data.nombre);
     } catch (erreur) {
         envoyer({ type: 'erreur', message: erreur.message });
     }
