@@ -1,48 +1,425 @@
+/* Thème « électrique » : nuit bleu profond, bleu éclair et jaune foudre.
+   Polices système uniquement : aucune requête vers un service tiers. */
 :root {
+  --nuit: #070b1f;
+  --abysse: #0b1230;
+  --surface: #0f1838;
+  --surface-haute: #142049;
+  --bord: #24346f;
+  --bleu-eclair: #3d7bff;
+  --cyan: #5ee7ff;
+  --jaune: #ffd23f;
+  --jaune-vif: #ffe680;
+  --texte: #e8eeff;
+  --texte-doux: #a3b3e0;
+  --rayon: 0.9rem;
+  --halo-bleu: 0 0 0 1px rgb(61 123 255 / 0.35), 0 0 24px rgb(61 123 255 / 0.18);
+  --halo-jaune: 0 0 0 1px rgb(255 210 63 / 0.6), 0 0 22px rgb(255 210 63 / 0.35);
+  --mono: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
-  color: #1b1f24;
-  background: #f7f8fa;
+  line-height: 1.55;
+  color: var(--texte);
+  background: var(--nuit);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(60rem 30rem at 85% -10%, rgb(61 123 255 / 0.28), transparent 60%),
+    radial-gradient(40rem 24rem at -10% 20%, rgb(94 231 255 / 0.12), transparent 60%),
+    linear-gradient(rgb(61 123 255 / 0.06) 1px, transparent 1px) 0 0 / 2.5rem 2.5rem,
+    linear-gradient(90deg, rgb(61 123 255 / 0.06) 1px, transparent 1px) 0 0 / 2.5rem 2.5rem,
+    var(--nuit);
+  background-attachment: fixed;
 }
 
 main,
-footer {
+.entete-contenu,
+.pied {
   max-width: 52rem;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-section {
-  background: #fff;
-  border: 1px solid #d5dae1;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin: 1rem 0;
+/* En-tête */
+.entete {
+  padding: 3rem 0 1.5rem;
+}
+
+.marque {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.5rem;
+  border: 1px solid var(--bord);
+  border-radius: 999px;
+  background: rgb(15 24 56 / 0.7);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.eclair {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: var(--jaune);
+  filter: drop-shadow(0 0 6px rgb(255 210 63 / 0.8));
+}
+
+h1 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.accent {
+  background: linear-gradient(90deg, var(--jaune), var(--jaune-vif) 40%, var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.chapo {
+  margin: 0;
+  max-width: 38rem;
+  font-size: 1.1rem;
+  color: var(--texte-doux);
+}
+
+/* Cartes */
+.carte {
+  position: relative;
+  margin: 1.2rem 0;
+  padding: 1.3rem 1.4rem;
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon);
+  background: linear-gradient(180deg, rgb(20 32 73 / 0.85), rgb(11 18 48 / 0.85));
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.carte::before {
+  content: '';
+  position: absolute;
+  inset: 0 1.4rem auto;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--bleu-eclair), var(--cyan), transparent);
+  opacity: 0.8;
+}
+
+h2 {
+  margin: 0 0 0.8rem;
+  font-size: 0.85rem;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
 }
 
 label {
   display: block;
+  margin-bottom: 0.5rem;
   font-weight: 600;
-  margin-bottom: 0.4rem;
+}
+
+a {
+  color: var(--cyan);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--jaune);
+}
+
+:focus-visible {
+  outline: 2px solid var(--jaune);
+  outline-offset: 3px;
+}
+
+/* Recherche */
+.carte-recherche {
+  border-color: rgb(61 123 255 / 0.6);
+  box-shadow: var(--halo-bleu), 0 10px 30px rgb(0 0 0 / 0.35);
+}
+
+.champ-recherche {
+  display: flex;
+  gap: 0.6rem;
 }
 
 input[type='search'] {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--bord);
+  border-radius: 0.6rem;
+  background: var(--nuit);
+  color: var(--texte);
+  font-size: 1.05rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type='search']::placeholder {
+  color: #6f80b3;
+}
+
+input[type='search']:focus {
+  outline: none;
+  border-color: var(--jaune);
+  box-shadow: var(--halo-jaune);
+}
+
+button {
+  padding: 0.8rem 1.3rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: var(--jaune);
+  color: var(--nuit);
   font-size: 1rem;
-  padding: 0.6rem;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--jaune-vif);
+  box-shadow: var(--halo-jaune);
+  transform: translateY(-1px);
+}
+
+button:disabled,
+input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* État du moteur */
+.etat {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--texte-doux);
+}
+
+.etat p {
+  margin: 0 0 0.6rem;
+}
+
+.jauges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.jauge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 progress {
-  width: 100%;
+  width: 9rem;
+  height: 0.45rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--abysse);
+  overflow: hidden;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background: var(--abysse);
+}
+
+progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--bleu-eclair), var(--cyan));
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+progress::-moz-progress-bar {
+  background: linear-gradient(90deg, var(--bleu-eclair), var(--cyan));
+}
+
+.taille {
+  color: var(--texte-doux);
+}
+
+/* Résultats */
+.resultats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rang;
+}
+
+.resultats li {
+  position: relative;
+  margin-top: 0.9rem;
+  padding: 1rem 1rem 1rem 3.4rem;
+  border: 1px solid var(--bord);
+  border-radius: 0.7rem;
+  background: rgb(7 11 31 / 0.6);
+  counter-increment: rang;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.resultats li:hover {
+  border-color: var(--bleu-eclair);
+  box-shadow: var(--halo-bleu);
+}
+
+.resultats li::before {
+  content: counter(rang);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--jaune);
+  color: var(--nuit);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 0 12px rgb(255 210 63 / 0.55);
 }
 
 .reference {
+  margin: 0 0 0.4rem;
   font-weight: 600;
-  margin-bottom: 0.2rem;
+  color: var(--texte);
 }
 
 .texte {
+  margin: 0 0 0.6rem;
   white-space: pre-line;
-  margin-top: 0;
+  color: var(--texte-doux);
+}
+
+#resume-resultats {
+  margin: 0;
+  color: var(--texte-doux);
+}
+
+/* Périmètre */
+.fiches {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--texte-doux);
+}
+
+.fiches li::marker {
+  color: var(--jaune);
+}
+
+/* Page de mentions légales */
+.document h3 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 1rem;
+  color: var(--texte);
+}
+
+.document p,
+.document li {
+  color: var(--texte-doux);
+}
+
+.document strong {
+  color: var(--texte);
+}
+
+.document ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.document li + li {
+  margin-top: 0.4rem;
+}
+
+.document li::marker {
+  color: var(--jaune);
+}
+
+.tableau-defilant {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--bord);
+  text-align: left;
+  vertical-align: top;
+  color: var(--texte-doux);
+}
+
+th {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--jaune-vif);
+}
+
+.a-completer {
+  padding: 0 0.3rem;
+  border: 1px dashed var(--jaune);
+  border-radius: 0.3rem;
+  color: var(--jaune);
+}
+
+/* Pied de page */
+.pied {
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
+  font-size: 0.85rem;
+  color: var(--texte-doux);
+}
+
+/* Petits écrans */
+@media (max-width: 34rem) {
+  .champ-recherche {
+    flex-direction: column;
+  }
+
+  .resultats li {
+    padding-left: 1rem;
+    padding-top: 3.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }

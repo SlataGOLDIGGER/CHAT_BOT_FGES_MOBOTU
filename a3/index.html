@@ -4,45 +4,62 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b1f" />
   <title>Stages : trouver le bon passage dans les fiches officielles</title>
 </head>
 
 <body>
+  <header class="entete">
+    <div class="entete-contenu">
+      <p class="marque">
+        <svg class="eclair" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M13.5 2 4 13.5h6.5L9 22l11-13h-7z" />
+        </svg>
+        <span>Recherche sémantique · fiches Service-Public</span>
+      </p>
+      <h1>Stages : trouver le <span class="accent">bon passage</span></h1>
+      <p class="chapo">Posez une question : le site retrouve les passages les plus proches dans des fiches officielles.</p>
+    </div>
+  </header>
+
   <main>
-    <h1>Stages : trouver le bon passage</h1>
-    <p>Posez une question : le site retrouve les passages les plus proches dans des fiches officielles.</p>
-
-    <section aria-labelledby="titre-perimetre">
-      <h2 id="titre-perimetre">Ce que vous pouvez interroger</h2>
-      <p id="perimetre-resume">Chargement du périmètre…</p>
-      <ul id="liste-fiches"></ul>
-    </section>
-
-    <section aria-labelledby="titre-recherche">
+    <section class="carte carte-recherche" aria-labelledby="titre-recherche">
       <h2 id="titre-recherche">Votre question</h2>
       <form id="formulaire" role="search">
         <label for="question">Question en langage naturel</label>
-        <input id="question" type="search" autocomplete="off" maxlength="300" disabled />
-        <button id="bouton" type="submit" disabled>Rechercher</button>
+        <div class="champ-recherche">
+          <input id="question" type="search" autocomplete="off" maxlength="300" disabled
+            placeholder="Ex. : combien de temps peut durer un stage ?" />
+          <button id="bouton" type="submit" disabled>Rechercher</button>
+        </div>
       </form>
-      <div id="etat" role="status" aria-live="polite">
+      <div id="etat" class="etat" role="status" aria-live="polite">
         <p id="message-etat">Préparation du moteur de recherche…</p>
-        <progress id="progres-index" max="100" value="0"></progress>
-        <progress id="progres-modele" max="100" value="0"></progress>
-        <span id="taille-modele"></span>
+        <div class="jauges">
+          <span class="jauge">Index <progress id="progres-index" max="100" value="0"></progress></span>
+          <span class="jauge">Modèle <progress id="progres-modele" max="100" value="0"></progress></span>
+          <span id="taille-modele" class="taille"></span>
+        </div>
       </div>
     </section>
 
-    <section aria-labelledby="titre-resultats">
+    <section class="carte" aria-labelledby="titre-resultats">
       <h2 id="titre-resultats">Passages trouvés</h2>
       <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
-      <ol id="liste-resultats"></ol>
+      <ol id="liste-resultats" class="resultats"></ol>
+    </section>
+
+    <section class="carte carte-perimetre" aria-labelledby="titre-perimetre">
+      <h2 id="titre-perimetre">Ce que vous pouvez interroger</h2>
+      <p id="perimetre-resume">Chargement du périmètre…</p>
+      <ul id="liste-fiches" class="fiches"></ul>
     </section>
   </main>
 
-  <footer>
+  <footer class="pied">
     <p id="attribution"></p>
     <p>Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur.</p>
+    <p><a href="./mentions.html">Mentions légales et confidentialité</a></p>
   </footer>
   <script type="module" src="/src/main.js"></script>
 </body>
