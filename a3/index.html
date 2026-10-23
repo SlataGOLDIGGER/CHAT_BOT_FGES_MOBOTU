@@ -38,6 +38,16 @@
       <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
       <ol id="liste-resultats"></ol>
     </section>
+    <section id="panneau-evaluation" aria-labelledby="titre-evaluation" hidden>
+      <h2 id="titre-evaluation">Mode évaluation (équipe)</h2>
+      <p id="evaluation-config"></p>
+      <label for="fichier-questions">Fichier de questions (JSONL), lu dans le navigateur sans envoi</label>
+      <input id="fichier-questions" type="file" accept=".jsonl" />
+      <button id="lancer-evaluation" type="button">Calculer les classements</button>
+      <p id="evaluation-etat" role="status" aria-live="polite"></p>
+      <a id="telecharger-classement" hidden>Télécharger le classement</a>
+    </section>
+    <pre id="diagnostic" hidden></pre>
   </main>
 
   <footer>
