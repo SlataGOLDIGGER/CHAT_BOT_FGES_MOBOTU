@@ -1,7 +1,7 @@
 {
   "production": {
     "modele": "pre",
-    "strategie": "paragraphe"
+    "strategie": "fenetre"
   },
   "combinaisons": {
     "pre/section": {
