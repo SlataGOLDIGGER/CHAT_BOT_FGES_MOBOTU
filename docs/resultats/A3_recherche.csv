@@ -1,0 +1,10 @@
+date;combinaison;questions;n;R@1;R@3;R@5;R@10;MRR@10;nDCG@10;ic95_ndcg_bas;ic95_ndcg_haut
+26/10/2026;pre/section;questions_dev.jsonl;16;0.5312;0.625;0.6875;0.7812;0.6168;0.6543;0.4422;0.8559
+26/10/2026;pre/fenetre;questions_dev.jsonl;16;0.625;0.75;0.8438;0.9062;0.8042;0.7973;0.6289;0.9356
+26/10/2026;pre/paragraphe;questions_dev.jsonl;16;0.5625;0.8438;0.8438;0.9062;0.7667;0.7783;0.6128;0.9145
+26/10/2026;bm25/section;questions_dev.jsonl;16;0.4062;0.6562;0.7812;0.9375;0.5917;0.6772;0.5313;0.8191
+26/10/2026;bm25/fenetre;questions_dev.jsonl;16;0.4375;0.6875;0.8125;0.9375;0.634;0.701;0.5457;0.8449
+26/10/2026;bm25/paragraphe;questions_dev.jsonl;16;0.4062;0.6875;0.75;0.875;0.6163;0.6731;0.4953;0.84
+26/10/2026;tfidf/section;questions_dev.jsonl;16;0.375;0.6875;0.75;0.9062;0.5601;0.653;0.4972;0.805
+26/10/2026;tfidf/fenetre;questions_dev.jsonl;16;0.4688;0.7188;0.8438;0.9375;0.6464;0.7216;0.5689;0.8603
+26/10/2026;tfidf/paragraphe;questions_dev.jsonl;16;0.3438;0.6875;0.8125;0.9375;0.6007;0.6814;0.5316;0.8243
