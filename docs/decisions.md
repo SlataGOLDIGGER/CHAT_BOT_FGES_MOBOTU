@@ -13,6 +13,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D7 | 25/09/2026 | Récupération du volet B par ONNX Runtime | annoncée |
 | D8 | 25/09/2026 | Répartition du volet B entre les cinq rôles | annoncée |
 | D9 | 25/09/2026 | Journal d'usage de l'IA tenu dans le classeur partagé | annoncée |
+| D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
 
 ## D1 — Corpus : sept fiches, collecte XML officielle
 
@@ -79,6 +80,19 @@ Projet Jira `NLP`, colonnes « À préciser », « Prêt », « En cours », « 
 ## D9 — Journal d'usage de l'IA
 
 Le journal d'usage de l'IA est tenu dans le classeur de suivi partagé avec l'enseignant, et non dans `docs/` comme annoncé au J2.
+
+
+## D11 — Découpage de production du volet A (26/10/2026)
+
+Mesures sur le développement (32 questions répondables), dans le navigateur, E5 préentraîné : nDCG@10 section 0.6543 ; fenetre 0.7973 ; paragraphe 0.7783.
+
+Meilleure référence lexicale sur ce découpage : TF-IDF/fenetre (nDCG@10 0.7216).
+
+Règle (protocole, section 3) : meilleur nDCG@10 ; à moins de 0,01, le découpage le plus fin.
+
+Décision : découpage fenetre.
+
+Conséquence : PRODUCTION = { modele: 'pre', strategie: 'fenetre' } dans a3/src/config.js ; l'encodeur affiné est jugé sur ce découpage (D12).
 
 ## Autres ajustements de forme
 
