@@ -5,40 +5,76 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stages : trouver le bon passage dans les fiches officielles</title>
+  <meta name="description"
+    content="Recherche sémantique dans des fiches Service-Public sur les stages, calculée dans votre navigateur." />
 </head>
 
 <body>
-  <main>
+  <a class="evitement" href="#recherche">Aller directement à la recherche</a>
+  <header class="entete">
     <h1>Stages : trouver le bon passage</h1>
-    <p>Posez une question : le site retrouve les passages les plus proches dans des fiches officielles.</p>
+    <p class="sous-titre">
+      Posez une question en français : le site retrouve, dans des fiches officielles, les passages les plus proches
+      du sens de votre question. Il ne rédige aucune réponse : il vous montre où lire.
+    </p>
+  </header>
 
-    <section aria-labelledby="titre-perimetre">
+  <main>
+    <section class="perimetre" aria-labelledby="titre-perimetre">
       <h2 id="titre-perimetre">Ce que vous pouvez interroger</h2>
       <p id="perimetre-resume">Chargement du périmètre…</p>
       <ul id="liste-fiches"></ul>
+      <p class="hors-perimetre">
+        Non couvert : stages à l'étranger, règlement de votre établissement, fonctionnaires stagiaires, situation
+        personnelle.
+      </p>
     </section>
 
-    <section aria-labelledby="titre-recherche">
+    <section id="recherche" class="recherche" aria-labelledby="titre-recherche">
       <h2 id="titre-recherche">Votre question</h2>
       <form id="formulaire" role="search">
         <label for="question">Question en langage naturel</label>
-        <input id="question" type="search" autocomplete="off" maxlength="300" disabled />
-        <button id="bouton" type="submit" disabled>Rechercher</button>
+        <div class="champ">
+          <input id="question" name="question" type="search" autocomplete="off" maxlength="300"
+            placeholder="Ex. : mon stage de trois mois doit-il être payé ?" disabled />
+          <button id="bouton" type="submit" disabled>Rechercher</button>
+        </div>
+        <p class="exemples">
+          Essayez :
+          <button type="button" class="exemple" disabled>Combien est payé un stagiaire ?</button>
+          <button type="button" class="exemple" disabled>Puis-je faire un stage dans une mairie ?</button>
+          <button type="button" class="exemple" disabled>Mon stage compte-t-il dans la période d'essai ?</button>
+        </p>
       </form>
-      <div id="etat" role="status" aria-live="polite">
+      <div id="etat" class="etat" role="status" aria-live="polite">
         <p id="message-etat">Préparation du moteur de recherche…</p>
-        <progress id="progres-index" max="100" value="0"></progress>
-        <progress id="progres-modele" max="100" value="0"></progress>
-        <span id="taille-modele"></span>
+        <div class="progression">
+          <span>Index des passages</span>
+          <progress id="progres-index" max="100" value="0"></progress>
+        </div>
+        <div class="progression">
+          <span>Modèle (téléchargé une seule fois)</span>
+          <progress id="progres-modele" max="100" value="0"></progress>
+          <span id="taille-modele"></span>
+        </div>
       </div>
     </section>
 
-    <section aria-labelledby="titre-resultats">
+    <section class="resultats" aria-labelledby="titre-resultats">
       <h2 id="titre-resultats">Passages trouvés</h2>
       <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
       <ol id="liste-resultats"></ol>
+      <details class="aide-score">
+        <summary>Comment lire le score ?</summary>
+        <p>
+          Le score est une similarité cosinus entre le sens de votre question et celui du passage. Plus il est
+          élevé, plus le passage est proche. Il sert à comparer les passages entre eux : ce n'est ni une probabilité,
+          ni une garantie que le passage répond à votre question.
+        </p>
+      </details>
     </section>
-    <section id="panneau-evaluation" aria-labelledby="titre-evaluation" hidden>
+
+    <section id="panneau-evaluation" class="evaluation" aria-labelledby="titre-evaluation" hidden>
       <h2 id="titre-evaluation">Mode évaluation (équipe)</h2>
       <p id="evaluation-config"></p>
       <label for="fichier-questions">Fichier de questions (JSONL), lu dans le navigateur sans envoi</label>
@@ -50,9 +86,14 @@
     <pre id="diagnostic" hidden></pre>
   </main>
 
-  <footer>
+  <footer class="pied">
     <p id="attribution"></p>
-    <p>Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur.</p>
+    <p>
+      Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur. Le modèle (environ
+      115 Mo) est téléchargé une fois depuis Hugging Face et le moteur d'exécution depuis jsDelivr, puis conservés
+      dans le cache du navigateur.
+    </p>
+    <button id="vider-cache" type="button">Effacer le cache du modèle</button>
   </footer>
   <script type="module" src="/src/main.js"></script>
 </body>
