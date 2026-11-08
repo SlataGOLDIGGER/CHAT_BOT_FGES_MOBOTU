@@ -1,10 +1,11 @@
 // Interface du volet A : aucune inférence ici, tout le calcul est délégué au Web Worker.
 import './style.css';
-import { MODELES, PRODUCTION, STRATEGIES } from './config.js';
+import { MODELES, PRODUCTION, SEUIL_PERTINENCE, STRATEGIES } from './config.js';
 
 const $ = (id) => document.getElementById(id);
 const champ = $('question');
 const bouton = $('bouton');
+const exemples = [...document.querySelectorAll('.exemple')];
 const nombre = (x, chiffres) => x.toLocaleString('fr-FR', { minimumFractionDigits: chiffres, maximumFractionDigits: chiffres });
 
 // Modes réservés à l'équipe : ?evaluation, ?diagnostic, ?modele=…, ?strategie=…
@@ -37,18 +38,37 @@ function afficherPerimetre(index) {
     $('attribution').textContent = index.attribution;
 }
 
+function activer(actif) {
+    champ.disabled = !actif;
+    bouton.disabled = !actif;
+    exemples.forEach((b) => { b.disabled = !actif; });
+}
+
 function afficherResultats({ question, resultats, dureeMs }) {
     $('resume-resultats').textContent =
         `${resultats.length} passages pour « ${question} » (calculés en ${nombre(dureeMs, 0)} ms).`;
-    $('liste-resultats').replaceChildren(...resultats.map((r) => {
+    $('liste-resultats').replaceChildren(...resultats.map((r, rang) => {
         const item = document.createElement('li');
+        item.className = 'resultat';
+        const entete = document.createElement('div');
+        entete.className = 'resultat-entete';
         const reference = document.createElement('p');
         reference.className = 'reference';
-        reference.textContent = `${r.reference} — similarité ${nombre(r.score, 3)}`;
+        reference.textContent = r.reference;
+        const score = document.createElement('p');
+        score.className = 'score';
+        score.textContent = `Similarité ${nombre(r.score, 3)}`;
+        if (SEUIL_PERTINENCE !== null && r.score < SEUIL_PERTINENCE) {
+            score.textContent += ' · proximité faible';
+            item.classList.add('faible');
+        }
+        entete.append(reference, score);
         const texte = document.createElement('p');
         texte.className = 'texte';
         texte.textContent = r.texte;
-        item.append(reference, texte, lien(r.url, 'Lire la fiche complète sur service-public.gouv.fr'));
+        const suite = lien(r.url, 'Lire la fiche complète sur service-public.gouv.fr');
+        suite.setAttribute('aria-label', `Lire la fiche complète du résultat ${rang + 1}`);
+        item.append(entete, texte, suite);
         return item;
     }));
     bouton.disabled = false;
@@ -79,8 +99,8 @@ worker.onmessage = ({ data }) => {
         $('message-etat').textContent = data.message;
     } else if (data.type === 'pret') {
         $('message-etat').textContent = `Moteur prêt en ${nombre(data.dureeMs / 1000, 1)} s. Posez votre question.`;
-        champ.disabled = false;
-        bouton.disabled = false;
+        $('etat').classList.add('pret');
+        activer(true);
         champ.focus();
         if (parametres.has('evaluation')) preparerEvaluation();
         if (parametres.has('diagnostic')) {
@@ -100,18 +120,35 @@ worker.onmessage = ({ data }) => {
         $('diagnostic').hidden = false;
         $('diagnostic').textContent = JSON.stringify(data.mesures, null, 2);
     } else if (data.type === 'erreur') {
-        $('message-etat').textContent = `Le moteur n'a pas pu démarrer : ${data.message}`;
+        $('etat').classList.add('erreur');
+        $('message-etat').textContent = `Le moteur n'a pas pu démarrer : ${data.message} Rechargez la page ; si le problème persiste, essayez un autre navigateur.`;
+        activer(false);
     }
 };
 
-$('formulaire').addEventListener('submit', (evenement) => {
-    evenement.preventDefault();
-    const texte = champ.value.trim();
+function chercher(question) {
+    const texte = question.trim();
     if (!texte) {
         $('resume-resultats').textContent = 'Saisissez une question avant de lancer la recherche.';
+        champ.focus();
         return;
     }
     bouton.disabled = true;
     $('resume-resultats').textContent = 'Recherche en cours…';
     worker.postMessage({ type: 'chercher', question: texte });
+}
+
+$('formulaire').addEventListener('submit', (evenement) => {
+    evenement.preventDefault();
+    chercher(champ.value);
+});
+exemples.forEach((b) => b.addEventListener('click', () => {
+    champ.value = b.textContent;
+    chercher(b.textContent);
+}));
+$('vider-cache').addEventListener('click', async () => {
+    if ('caches' in window) {
+        for (const nom of await caches.keys()) await caches.delete(nom);
+    }
+    location.reload();
 });
