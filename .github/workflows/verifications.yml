@@ -1,0 +1,52 @@
+name: verifications
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verifications-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verifications:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.18"
+
+      - name: Environnement Python figé
+        run: |
+          uv venv --python 3.12.13 .venv-data
+          uv pip install --python .venv-data --only-binary :all: -r scripts/requirements.txt
+
+      - name: Fichiers interdits, poids, secrets, documents privés
+        run: .venv-data/bin/python -m scripts.verifier_depot
+
+      - name: Intégrité du corpus
+        if: hashFiles('shared/corpus/manifest.json') != ''
+        run: .venv-data/bin/python -m scripts.verifier_corpus
+
+      - name: Questions d'entraînement et de développement
+        if: hashFiles('shared/eval/familles.json') != ''
+        run: .venv-data/bin/python -m scripts.valider_questions
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24.21.0"
+          cache: npm
+          cache-dependency-path: a3/package-lock.json
+
+      - name: Construction du site
+        working-directory: a3
+        run: |
+          npm ci
+          npm run build
