@@ -14,6 +14,28 @@ RACINE = pathlib.Path(__file__).resolve().parents[1]
 GRAINE = "nlp-a3-b1-2026"
 MOTIF = ["train", "train", "dev", "train", "test"]  # 60 % / 20 % / 20 % des familles
 
+# Correctifs du tirage initial pour le corpus-v2 gelé. Les variantes de convention,
+# d'assurance et de visite médicale portaient la même réponse dans plusieurs jeux.
+# Chaque entrée indique l'affectation attendue avant correction et la nouvelle.
+CORRECTIONS = {
+    "F1882-1": ("train", "test"),
+    "F1882-2.1": ("test", "train"),
+    "F1882-4": ("train", "test"),
+    "F1882-4.1": ("train", "dev"),
+    "F1882-4.3": ("test", "train"),
+    "F1882-5": ("train", "test"),
+    "F1882-5.2": ("dev", "train"),
+    "F1882-6": ("train", "test"),
+    "F1882-6.2": ("test", "train"),
+    "F1882-6.3": ("test", "dev"),
+    "F1882-6.4": ("dev", "train"),
+}
+EQUIVALENCES_PROCHES = (
+    ("F1882-1.1", "F1882-2.1"),  # convention, seule l'adresse change
+    ("F1882-5.3", "F1882-6.3"),  # visite médicale / machines
+    ("F1882-4.3", "F1882-6.4"),  # responsabilité civile, texte abrégé
+)
+
 
 def famille(section_id: str) -> str:
     fiche, codes = section_id.split("-", 1)
@@ -39,9 +61,25 @@ def main() -> None:
         for f in propres:
             repartition[f] = MOTIF[rang % len(MOTIF)]
             rang += 1
+    initiale = collections.Counter((f.split("-")[0], e) for f, e in repartition.items())
+    for f, (attendue, nouvelle) in CORRECTIONS.items():
+        if repartition.get(f) != attendue:
+            raise ValueError(f"Répartition initiale modifiée pour {f} : réexaminer les corrections")
+        repartition[f] = nouvelle
+    if collections.Counter((f.split("-")[0], e) for f, e in repartition.items()) != initiale:
+        raise ValueError("Les corrections ont changé les quotas par fiche")
+    par_texte = collections.defaultdict(set)
+    for ligne in lignes:
+        section = json.loads(ligne)
+        par_texte[section["texte"]].add(repartition[famille(section["section_id"])])
+    if any(len(ensembles) > 1 for ensembles in par_texte.values()):
+        raise ValueError("Une même section textuelle figure dans plusieurs ensembles")
+    for a, b in EQUIVALENCES_PROCHES:
+        if repartition[a] != repartition[b]:
+            raise ValueError(f"Règle équivalente répartie entre ensembles : {a}, {b}")
     sortie = {
         "graine": GRAINE,
-        "regle": "famille = section ; cas et situations rattachés à leur unité parente",
+        "regle": "famille = section ; cas et situations rattachés à leur unité parente ; règles équivalentes dans le même ensemble",
         "familles": {f: {"ensemble": repartition[f], "sections": familles[f]} for f in sorted(familles)},
         "sections": {s: famille(s) for s in sections},
     }

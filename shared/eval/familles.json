@@ -1,6 +1,6 @@
 {
   "graine": "nlp-a3-b1-2026",
-  "regle": "famille = section ; cas et situations rattachés à leur unité parente",
+  "regle": "famille = section ; cas et situations rattachés à leur unité parente ; règles équivalentes dans le même ensemble",
   "familles": {
     "F13879-0": {
       "ensemble": "train",
@@ -153,7 +153,7 @@
       ]
     },
     "F1882-1": {
-      "ensemble": "train",
+      "ensemble": "test",
       "sections": [
         "F1882-1"
       ]
@@ -177,7 +177,7 @@
       ]
     },
     "F1882-2.1": {
-      "ensemble": "test",
+      "ensemble": "train",
       "sections": [
         "F1882-2.1"
       ]
@@ -207,13 +207,13 @@
       ]
     },
     "F1882-4": {
-      "ensemble": "train",
+      "ensemble": "test",
       "sections": [
         "F1882-4"
       ]
     },
     "F1882-4.1": {
-      "ensemble": "train",
+      "ensemble": "dev",
       "sections": [
         "F1882-4.1.c1",
         "F1882-4.1.c2"
@@ -226,13 +226,13 @@
       ]
     },
     "F1882-4.3": {
-      "ensemble": "test",
+      "ensemble": "train",
       "sections": [
         "F1882-4.3"
       ]
     },
     "F1882-5": {
-      "ensemble": "train",
+      "ensemble": "test",
       "sections": [
         "F1882-5"
       ]
@@ -245,7 +245,7 @@
       ]
     },
     "F1882-5.2": {
-      "ensemble": "dev",
+      "ensemble": "train",
       "sections": [
         "F1882-5.2"
       ]
@@ -263,7 +263,7 @@
       ]
     },
     "F1882-6": {
-      "ensemble": "train",
+      "ensemble": "test",
       "sections": [
         "F1882-6"
       ]
@@ -276,19 +276,19 @@
       ]
     },
     "F1882-6.2": {
-      "ensemble": "test",
+      "ensemble": "train",
       "sections": [
         "F1882-6.2"
       ]
     },
     "F1882-6.3": {
-      "ensemble": "test",
+      "ensemble": "dev",
       "sections": [
         "F1882-6.3"
       ]
     },
     "F1882-6.4": {
-      "ensemble": "dev",
+      "ensemble": "train",
       "sections": [
         "F1882-6.4"
       ]
