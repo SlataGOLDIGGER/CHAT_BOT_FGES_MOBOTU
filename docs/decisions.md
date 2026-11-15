@@ -13,6 +13,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D7 | 25/09/2026 | Récupération du volet B par ONNX Runtime | annoncée |
 | D8 | 25/09/2026 | Répartition du volet B entre les cinq rôles | annoncée |
 | D9 | 25/09/2026 | Journal d'usage de l'IA tenu dans le classeur partagé | annoncée |
+| D10 | 15/11/2026 | Découpage et seuil du volet B | appliquée |
 | D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
 
 ## D1 — Corpus : sept fiches, collecte XML officielle
@@ -81,6 +82,12 @@ Projet Jira `NLP`, colonnes « À préciser », « Prêt », « En cours », « 
 
 Le journal d'usage de l'IA est tenu dans le classeur de suivi partagé avec l'enseignant, et non dans `docs/` comme annoncé au J2.
 
+## D10 — Découpage et seuil du volet B (15/11/2026)
+
+Mesures sur le développement (32 questions répondables, 8 hors corpus), modèle de base, k = 5 : rappel de récupération section 0.708 ; fenetre 0.833 ; paragraphe 0.708.
+Règle (protocole, section 4) : meilleur rappel de récupération ; à moins de 0,02 de section, section est gardé. Seuil : plus bas des meilleurs scores des questions répondables, moins 0,01.
+Décision : découpage fenetre ; seuil_score = 0.8403 (questions hors corpus écartées par le seuil : 0 sur 8).
+Conséquence : b1/config/rag.json ; ces réglages servent à la construction des données d'adaptation (NLP-60) et restent fixes jusqu'au gel (NLP-71).
 
 ## D11 — Découpage de production du volet A (26/10/2026)
 
