@@ -1,1 +1,1 @@
-{"strategie": "section", "k": 5, "seuil_score": 0.0}
+{"strategie": "fenetre", "k": 5, "seuil_score": 0.8403}
