@@ -10,6 +10,8 @@ import pathlib
 import re
 import sys
 
+from scripts.repartir_familles import EQUIVALENCES_PROCHES
+
 RACINE = pathlib.Path(__file__).resolve().parents[1]
 EVAL = RACINE / "shared" / "eval"
 CHAMPS = {"qid", "ensemble", "auteur", "question", "dans_corpus", "sections_or", "famille", "reponse_ref", "date"}
@@ -30,6 +32,16 @@ def main() -> None:
     if args.test:
         fichiers["test"] = pathlib.Path(args.test).expanduser()
     erreurs, vues, textes = [], set(), {}
+    sections = [json.loads(l) for l in (RACINE / "shared" / "corpus" / "sections.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    par_texte = collections.defaultdict(set)
+    for section in sections:
+        f = familles["sections"][section["section_id"]]
+        par_texte[section["texte"]].add(familles["familles"][f]["ensemble"])
+    if any(len(ensembles) > 1 for ensembles in par_texte.values()):
+        erreurs.append("familles.json : texte de section présent dans plusieurs ensembles")
+    for a, b in EQUIVALENCES_PROCHES:
+        if familles["familles"][a]["ensemble"] != familles["familles"][b]["ensemble"]:
+            erreurs.append(f"familles.json : règles équivalentes séparées : {a}, {b}")
     for ensemble, chemin in fichiers.items():
         questions = lire_jsonl(chemin) if chemin.exists() else []
         for q in questions:
@@ -47,6 +59,8 @@ def main() -> None:
                 erreurs.append(f"{ou} : même question que {textes[cle]}")
             textes[cle] = q["qid"]
             if q["dans_corpus"]:
+                if q["famille"] not in {familles["sections"].get(s) for s in q["sections_or"]}:
+                    erreurs.append(f"{ou} : famille incompatible avec les sections d'or")
                 for s in q["sections_or"]:
                     f = familles["sections"].get(s)
                     if f is None or familles["familles"][f]["ensemble"] != ensemble:

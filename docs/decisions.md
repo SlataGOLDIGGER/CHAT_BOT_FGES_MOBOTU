@@ -15,6 +15,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D9 | 25/09/2026 | Journal d'usage de l'IA tenu dans le classeur partagé | annoncée |
 | D10 | 15/11/2026 | Découpage et seuil du volet B | appliquée |
 | D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
+| D14 | 15/11/2026 | Correction de l'étanchéité des familles de questions | appliquée localement, à annoncer |
 
 ## D1 — Corpus : sept fiches, collecte XML officielle
 
@@ -100,6 +101,16 @@ Règle (protocole, section 3) : meilleur nDCG@10 ; à moins de 0,01, le découpa
 Décision : découpage fenetre.
 
 Conséquence : PRODUCTION = { modele: 'pre', strategie: 'fenetre' } dans a3/src/config.js ; l'encodeur affiné est jugé sur ce découpage (D12).
+
+## D14 — Étanchéité des familles de questions (15/11/2026)
+
+**Constat.** Le tirage déterministe séparait des règles identiques ou quasi identiques de F1882 entre entraînement, développement et test. `valider_questions` ne contrôlait que l'appartenance des identifiants de section, donc pouvait afficher « Questions conformes » malgré cette fuite. Une famille de développement était également absente du champ `famille` des questions alors que sa section figurait déjà dans leurs sections d'or.
+
+**Options.** Garder le tirage et publier des scores avec et sans les questions touchées aurait laissé un test partiellement contaminé. Redistribuer toutes les familles aurait demandé davantage de réécriture et changé les quotas par fiche. P4 retient une correction ciblée du tirage et la reprise des questions affectées.
+
+**Décision appliquée localement.** Regrouper dans un seul ensemble les textes identiques et les trois quasi-doublons vérifiés ; conserver 37 / 12 / 12 familles et les comptes par fiche. Les affectations modifiées sont explicites et reproductibles dans `scripts/repartir_familles.py`. Le validateur contrôle désormais les groupes équivalents et la cohérence du champ `famille`. P4 a réécrit 32 lignes train/dev avec assistance IA ; le champ `auteur` continue de désigner le rôle propriétaire initial, et le bilan donne la provenance réelle des révisions. Les questions de test touchées ont été réécrites hors dépôt et sont attribuées à P4. Le scellement exige la validation complète des trois jeux.
+
+**Conséquences.** Le bilan MOBOTU-45 est corrigé localement ; les mesures de développement obtenues avec l'ancien partage ne sont pas comparables aux nouvelles mesures. Si un modèle a été entraîné sur l'ancien jeu, l'entraînement doit repartir du modèle de base après correction des questions ; réutiliser l'ancien point de contrôle contaminerait le test. Cette correction est à annoncer à l'enseignant selon la règle d'en-tête du présent registre ; son statut passera à « validée » après sa réponse.
 
 ## Autres ajustements de forme
 
