@@ -13,7 +13,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D7 | 25/09/2026 | Récupération du volet B par ONNX Runtime | annoncée |
 | D8 | 25/09/2026 | Répartition du volet B entre les cinq rôles | annoncée |
 | D9 | 25/09/2026 | Journal d'usage de l'IA tenu dans le classeur partagé | annoncée |
-| D10 | 15/11/2026 | Découpage et seuil du volet B | appliquée |
+| D10 | 16/11/2026 | Découpage et seuil du volet B | appliquée |
 | D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
 | D14 | 15/11/2026 | Correction de l'étanchéité des familles de questions | appliquée localement, à annoncer |
 
@@ -83,11 +83,13 @@ Projet Jira `NLP`, colonnes « À préciser », « Prêt », « En cours », « 
 
 Le journal d'usage de l'IA est tenu dans le classeur de suivi partagé avec l'enseignant, et non dans `docs/` comme annoncé au J2.
 
-## D10 — Découpage et seuil du volet B (15/11/2026)
+## D10 — Découpage et seuil du volet B (16/11/2026)
 
-Mesures sur le développement (32 questions répondables, 8 hors corpus), modèle de base, k = 5 : rappel de récupération section 0.708 ; fenetre 0.833 ; paragraphe 0.708.
+Mesures sur le développement corrigé par D14 (40 questions : 32 répondables, 8 hors corpus), modèle de base, k = 5, poste de P4 : rappel de récupération section 0.844 ; fenetre 0.906 ; paragraphe 0.906.
 Règle (protocole, section 4) : meilleur rappel de récupération ; à moins de 0,02 de section, section est gardé. Seuil : plus bas des meilleurs scores des questions répondables, moins 0,01.
-Décision : découpage fenetre ; seuil_score = 0.8403 (questions hors corpus écartées par le seuil : 0 sur 8).
+Décision : découpage fenetre ; seuil_score = 0.8403 (questions hors corpus écartées par le seuil : 0 sur 8). fenetre et paragraphe sont à égalité sur le rappel ; la commande de la fiche NLP-59 parcourt section, fenetre, paragraphe et retient le premier maximum, soit fenetre, qui a aussi le plus faible faux refus (0.062 contre 0.094).
+Le seuil n'écarte aucune question hors corpus (meilleur score hors corpus : 0.875, au-dessus du seuil) : les scores de l'encodeur sont resserrés et l'abstention repose sur le modèle, qui s'abstient sur les 8 questions hors corpus.
+Historique : une première mesure du 15/11 (poste de P1, #38) portait sur 30 questions de développement, avant la fusion des questions de P5 et la correction D14 ; ses chiffres sont remplacés. Le découpage et le seuil retenus sont inchangés.
 Conséquence : b1/config/rag.json ; ces réglages servent à la construction des données d'adaptation (NLP-60) et restent fixes jusqu'au gel (NLP-71).
 
 ## D11 — Découpage de production du volet A (26/10/2026)
