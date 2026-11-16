@@ -2,7 +2,7 @@
 
 Date : 15/11/2026 · base de départ : commit de main `4b00bf5`. Après correction D14, `python -m scripts.valider_questions --test` affiche « Questions conformes » pour les trois ensembles.
 
-**Statut : jeux corrigés localement.** D14 a changé onze affectations de familles F1882. Seize questions d'entraînement et quatre de développement ont été remplacées pour respecter le nouveau partage ; douze autres lignes ont été révisées pour lever des ambiguïtés, citations manquantes ou doublons. La métadonnée `famille` de `dev-P3-002` a aussi été corrigée. Le champ `auteur` conserve le rôle propriétaire initial de chaque ligne ; ces 32 révisions ont été rédigées par SLATA avec assistance IA le 15/11/2026. Cette provenance doit figurer dans le Journal IA de l'équipe.
+**Statut : jeux corrigés localement.** D14 a changé onze affectations de familles F1882. Seize questions d'entraînement et quatre de développement ont été remplacées pour respecter le nouveau partage ; douze autres lignes ont été révisées pour lever des ambiguïtés, citations manquantes ou doublons. La métadonnée `famille` de `dev-P3-002` a aussi été corrigée. Le champ `auteur` conserve le rôle propriétaire initial de chaque ligne ; ces 32 révisions ont été rédigées par P4 avec assistance IA le 15/11/2026. Cette provenance doit figurer dans le Journal IA de l'équipe.
 
 | Auteur | Entraînement (dont hors corpus) | Développement (dont hors corpus) |
 |---|---|---|
