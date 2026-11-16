@@ -11,11 +11,39 @@
       "cle": "8c97cca116d18de35682a9cbd8bdd22e71905e8cd3c4e6dd26205d12b3379587",
       "sha256Passages": "83ea0769b7807fe367947a0fe5ff6ae2a0a9de80c05181c31bce77164135dea4"
     },
+    "pre-export/section": {
+      "passages": "passages-section-83ea0769b7.json",
+      "vecteurs": "vecteurs-pre-export-section-e1368ccb94.bin",
+      "nombre": 75,
+      "cle": "e1368ccb947e4c5ada22ef01da0678d4cd83d67d41b3e1cb29fb83dace19b8c7",
+      "sha256Passages": "83ea0769b7807fe367947a0fe5ff6ae2a0a9de80c05181c31bce77164135dea4"
+    },
+    "affine/section": {
+      "passages": "passages-section-83ea0769b7.json",
+      "vecteurs": "vecteurs-affine-section-afb14af878.bin",
+      "nombre": 75,
+      "cle": "afb14af878c372ae413ce381c8c772130fc90aec19ba81401c6b5e6a922db75e",
+      "sha256Passages": "83ea0769b7807fe367947a0fe5ff6ae2a0a9de80c05181c31bce77164135dea4"
+    },
     "pre/fenetre": {
       "passages": "passages-fenetre-ac6d800067.json",
       "vecteurs": "vecteurs-pre-fenetre-94f514bb59.bin",
       "nombre": 113,
       "cle": "94f514bb595e1c387fd7ccf7a728642951d168e28fe6c5449bff2e6bc879a42d",
+      "sha256Passages": "ac6d800067ed02ef2c991f60cdd2068c7a8fbc5a401c2448e816972de3c13e4e"
+    },
+    "pre-export/fenetre": {
+      "passages": "passages-fenetre-ac6d800067.json",
+      "vecteurs": "vecteurs-pre-export-fenetre-59f7b53fcf.bin",
+      "nombre": 113,
+      "cle": "59f7b53fcf21484069d07fcd520b212e4d0ed3d63f7a15540992c784d78a1a5c",
+      "sha256Passages": "ac6d800067ed02ef2c991f60cdd2068c7a8fbc5a401c2448e816972de3c13e4e"
+    },
+    "affine/fenetre": {
+      "passages": "passages-fenetre-ac6d800067.json",
+      "vecteurs": "vecteurs-affine-fenetre-3563c956f2.bin",
+      "nombre": 113,
+      "cle": "3563c956f2ae3d79fc03fdf884553057393bfdcdd3b87918038c0e0464c2299a",
       "sha256Passages": "ac6d800067ed02ef2c991f60cdd2068c7a8fbc5a401c2448e816972de3c13e4e"
     },
     "pre/paragraphe": {
@@ -24,12 +52,36 @@
       "nombre": 256,
       "cle": "f7aca34f50e73451bc4d42df5ed5f6ed81587c9d094296ace892f89d98e241b1",
       "sha256Passages": "c486626668a8400a1e4a5f9e14a43d385397e5205d8a55685aac4b0f2726cc4a"
+    },
+    "pre-export/paragraphe": {
+      "passages": "passages-paragraphe-c486626668.json",
+      "vecteurs": "vecteurs-pre-export-paragraphe-a0409bdf4b.bin",
+      "nombre": 256,
+      "cle": "a0409bdf4ba825d238a36859c79548a1cd783775e3a135db79c9c02b006dba37",
+      "sha256Passages": "c486626668a8400a1e4a5f9e14a43d385397e5205d8a55685aac4b0f2726cc4a"
+    },
+    "affine/paragraphe": {
+      "passages": "passages-paragraphe-c486626668.json",
+      "vecteurs": "vecteurs-affine-paragraphe-1addba4336.bin",
+      "nombre": 256,
+      "cle": "1addba4336a9a468cd25d4e4ffb52b9611121d62101e4d929650fcf3905e2450",
+      "sha256Passages": "c486626668a8400a1e4a5f9e14a43d385397e5205d8a55685aac4b0f2726cc4a"
     }
   },
   "modeles": {
     "pre": {
       "depot": "Xenova/multilingual-e5-small",
       "revision": "761b726dd34fb83930e26aab4e9ac3899aa1fa78",
+      "dtype": "q8"
+    },
+    "pre-export": {
+      "depot": "fges-nlp-a3b1/e5-small-stages-fr",
+      "revision": "b83d0779f1aec650fc2599c5d27f6aa5261cb356",
+      "dtype": "q8"
+    },
+    "affine": {
+      "depot": "fges-nlp-a3b1/e5-small-stages-fr",
+      "revision": "c01f0c20f6fe63133444903d0ece2e392237bfb2",
       "dtype": "q8"
     }
   },
