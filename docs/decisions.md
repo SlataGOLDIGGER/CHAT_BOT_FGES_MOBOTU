@@ -16,6 +16,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D10 | 16/11/2026 | Découpage et seuil du volet B | appliquée |
 | D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
 | D14 | 15/11/2026 | Correction de l'étanchéité des familles de questions | appliquée localement, à annoncer |
+| D12 | 21/11/2026 | Go/no-go de l'encodeur affiné | appliquée |
 
 ## D1 — Corpus : sept fiches, collecte XML officielle
 
@@ -117,3 +118,11 @@ Conséquence : PRODUCTION = { modele: 'pre', strategie: 'fenetre' } dans a3/src/
 ## Autres ajustements de forme
 
 Les fiches d'environnement annoncées sous les noms `docs/environment.md` et `docs/environment-b1.md` sont remplacées par une fiche par rôle dans `docs/environnement/`. Les risques figurent dans `docs/cadrage.md` et leur suivi dans le classeur. Le verrou de dépendances du volet B s'appelle `b1/requirements.txt`.
+
+## D12 — Go/no-go de l'encodeur affiné (21/11/2026)
+
+Mesures sur le développement (32 questions répondables), dans le navigateur, découpage `fenetre` :
+nDCG@10 pre-export 0,832 ; affine 0,912 ; écart apparié +0,080 [IC95 −0,013 ; +0,171]. Recall@5 pre-export 0,875 ; affine 0,969.
+Diagnostic navigateur (113 passages, Chrome 156 sous Windows) : cosinus minimal affine 0,9768 ; pre-export 0,9947.
+Décision : no-go, parce que (1) la borne basse de l'intervalle de l'écart de nDCG@10 est négative (−0,013) et (3) le cosinus minimal du modèle affiné (0,9768) est inférieur à 0,99. Le critère (2) est respecté (Recall@5 affine 0,969 ≥ 0,855).
+Conséquence : le modèle de production reste `pre` avec le découpage `fenetre` ; `a3/` n'est pas modifié. Les lignes brutes sont dans `docs/resultats/A3_recherche.csv`, l'essai est documenté dans `docs/resultats/A3_recherche.md`.
