@@ -25,3 +25,15 @@ Règle : meilleur nDCG@10 d'E5 ; à moins de 0,01, le découpage le plus fin.
 Décision : découpage **fenêtre** (docs/decisions.md, D11).
 
 Lecture : E5 obtient le meilleur nDCG@10 avec le découpage fenêtre (0,7973 ; IC95 [0,6289 ; 0,9356]), contre 0,7010 pour BM25 (IC95 [0,5457 ; 0,8449]). Les intervalles se chevauchent : la supériorité statistique d'E5 n'est donc pas établie. L'écart moyen non apparié est de +0,0963. Les questions sur lesquelles BM25 fait mieux ne peuvent pas être identifiées sans les résultats individuels par question.
+
+## Seuil « proximité faible » (développement, 26/11/2026, commit f80e449)
+
+Règle (protocole, section 3) : au plus 5 % des meilleurs scores des questions répondables du développement sous le seuil.
+
+Combinaison de production : pre/fenetre ; classement mesuré dans le navigateur, mode évaluation.
+
+SEUIL_PERTINENCE = 0.865 ; questions répondables sous le seuil : 1 sur 32 ; questions hors corpus sous le seuil : 7 sur 8.
+
+Lecture : le seuil ajoute une mention, il n'écarte aucun résultat ; il signale une partie seulement des questions hors corpus, ce qui est attendu d'une similarité cosinus.
+
+Avec ce seuil, la question « Comment demander la prime d'activité pendant mon stage ? », qui reprend le sujet de T3 du test utilisateur, n'est pas signalée : ses cinq résultats ont des scores de 0,868 à 0,883.

@@ -16,6 +16,9 @@ const combinaison = `${modele}/${strategie}`;
 
 const worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
 worker.postMessage({ type: 'initialiser', modele, strategie });
+// La page reste utilisable pendant le premier chargement : une question posée avant la fin attend le moteur.
+let moteurPret = false;
+let questionEnAttente = null;
 
 function lien(url, texte) {
     const a = document.createElement('a');
@@ -52,27 +55,69 @@ function afficherResultats({ question, resultats, dureeMs }) {
         item.className = 'resultat';
         const entete = document.createElement('div');
         entete.className = 'resultat-entete';
+        // Le titre de la fiche, commun à beaucoup de résultats, passe en petit au-dessus du reste de la référence.
+        const [titreFiche, ...parties] = r.reference.split('›').map((morceau) => morceau.trim());
+        const source = document.createElement('div');
         const reference = document.createElement('p');
         reference.className = 'reference';
-        reference.textContent = r.reference;
+        if (parties.length) {
+            const fiche = document.createElement('p');
+            fiche.className = 'fiche';
+            fiche.textContent = titreFiche;
+            reference.textContent = parties.join(' › ');
+            source.append(fiche, reference);
+        } else {
+            reference.textContent = titreFiche;
+            source.append(reference);
+        }
         const score = document.createElement('p');
         score.className = 'score';
-        score.textContent = `Similarité ${nombre(r.score, 3)}`;
+        score.textContent = `Proximité de sens ${nombre(r.score, 3)}`;
         if (SEUIL_PERTINENCE !== null && r.score < SEUIL_PERTINENCE) {
             score.textContent += ' · proximité faible';
             item.classList.add('faible');
         }
-        entete.append(reference, score);
+        entete.append(source, score);
         const texte = document.createElement('p');
-        texte.className = 'texte';
-        texte.textContent = r.texte;
-        const suite = lien(r.url, 'Lire la fiche complète sur service-public.gouv.fr');
-        suite.setAttribute('aria-label', `Lire la fiche complète du résultat ${rang + 1}`);
-        item.append(entete, texte, suite);
+        texte.className = 'texte replie';
+        texte.id = `texte-resultat-${rang + 1}`;
+        // Une fenêtre qui n'est pas la première de sa section commence souvent au milieu d'une phrase.
+        const milieuDePhrase = /#f\d+$/.test(r.id) && !r.id.endsWith('#f1');
+        texte.textContent = milieuDePhrase ? `… ${r.texte.trimStart()}` : r.texte;
+        // Sur téléphone, le texte est limité à quatre lignes (style.css) ; ce bouton l'affiche en entier.
+        const lireSuite = document.createElement('button');
+        lireSuite.type = 'button';
+        lireSuite.className = 'lire-suite';
+        lireSuite.textContent = 'Lire la suite';
+        lireSuite.setAttribute('aria-controls', texte.id);
+        lireSuite.setAttribute('aria-expanded', 'false');
+        lireSuite.addEventListener('click', () => {
+            const replie = texte.classList.toggle('replie');
+            lireSuite.textContent = replie ? 'Lire la suite' : 'Réduire';
+            lireSuite.setAttribute('aria-expanded', String(!replie));
+        });
+        // Quand la section donne un numéro de partie (F1882-2.1 donne 2), le lien ouvre et déplie cette partie.
+        const numeroPartie = Number(/^F\d+-(\d+)/.exec(r.section)?.[1] ?? 0);
+        const versPartie = numeroPartie >= 1 && parties.length > 0;
+        const texteLien = versPartie
+            ? `Lire la partie « ${parties[0]} » sur service-public.gouv.fr`
+            : 'Lire la fiche complète sur service-public.gouv.fr';
+        const suite = lien(versPartie ? `${r.url}#accordion-chapter-btn-${numeroPartie}` : r.url, texteLien);
+        suite.setAttribute('aria-label', `${texteLien} (résultat ${rang + 1})`);
+        item.append(entete, texte, lireSuite, suite);
         return item;
     }));
+    ajusterLireSuite();
     bouton.disabled = false;
 }
+
+// Le bouton « Lire la suite » n'apparaît que si le passage replié dépasse vraiment quatre lignes.
+function ajusterLireSuite() {
+    for (const texte of document.querySelectorAll('#liste-resultats .texte.replie')) {
+        texte.nextElementSibling.hidden = texte.scrollHeight <= texte.clientHeight + 1;
+    }
+}
+matchMedia('(max-width: 600px)').addEventListener('change', ajusterLireSuite);
 
 function preparerEvaluation() {
     $('panneau-evaluation').hidden = false;
@@ -98,10 +143,17 @@ worker.onmessage = ({ data }) => {
     } else if (data.type === 'avertissement') {
         $('message-etat').textContent = data.message;
     } else if (data.type === 'pret') {
+        moteurPret = true;
         $('message-etat').textContent = `Moteur prêt en ${nombre(data.dureeMs / 1000, 1)} s. Posez votre question.`;
         $('etat').classList.add('pret');
         activer(true);
-        champ.focus();
+        if (questionEnAttente !== null) {
+            const question = questionEnAttente;
+            questionEnAttente = null;
+            chercher(question);
+        } else if (document.activeElement === document.body) {
+            champ.focus();
+        }
         if (parametres.has('evaluation')) preparerEvaluation();
         if (parametres.has('diagnostic')) {
             const demande = parametres.get('diagnostic');
@@ -123,6 +175,10 @@ worker.onmessage = ({ data }) => {
         $('etat').classList.add('erreur');
         $('message-etat').textContent = `Le moteur n'a pas pu démarrer : ${data.message} Rechargez la page ; si le problème persiste, essayez un autre navigateur.`;
         activer(false);
+        if (questionEnAttente !== null) {
+            questionEnAttente = null;
+            $('resume-resultats').textContent = "Recherche annulée : le moteur n'a pas pu démarrer.";
+        }
     }
 };
 
@@ -131,6 +187,11 @@ function chercher(question) {
     if (!texte) {
         $('resume-resultats').textContent = 'Saisissez une question avant de lancer la recherche.';
         champ.focus();
+        return;
+    }
+    if (!moteurPret) {
+        questionEnAttente = texte;
+        $('resume-resultats').textContent = 'Votre recherche sera lancée dès que le moteur sera prêt.';
         return;
     }
     bouton.disabled = true;
