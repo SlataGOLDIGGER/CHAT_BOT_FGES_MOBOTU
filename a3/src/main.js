@@ -69,7 +69,7 @@ function afficherResultats({ question, resultats, dureeMs }) {
         }
         const score = document.createElement('p');
         score.className = 'score';
-        score.textContent = `Similarité ${nombre(r.score, 3)}`;
+        score.textContent = `Proximité de sens ${nombre(r.score, 3)}`;
         if (SEUIL_PERTINENCE !== null && r.score < SEUIL_PERTINENCE) {
             score.textContent += ' · proximité faible';
             item.classList.add('faible');
