@@ -186,6 +186,12 @@ button:disabled {
   flex-wrap: wrap;
 }
 
+.fiche {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--secondaire);
+}
+
 .reference {
   font-weight: 600;
   margin: 0;

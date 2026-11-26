@@ -52,9 +52,21 @@ function afficherResultats({ question, resultats, dureeMs }) {
         item.className = 'resultat';
         const entete = document.createElement('div');
         entete.className = 'resultat-entete';
+        // Le titre de la fiche, commun à beaucoup de résultats, passe en petit au-dessus du reste de la référence.
+        const [titreFiche, ...parties] = r.reference.split('›').map((morceau) => morceau.trim());
+        const source = document.createElement('div');
         const reference = document.createElement('p');
         reference.className = 'reference';
-        reference.textContent = r.reference;
+        if (parties.length) {
+            const fiche = document.createElement('p');
+            fiche.className = 'fiche';
+            fiche.textContent = titreFiche;
+            reference.textContent = parties.join(' › ');
+            source.append(fiche, reference);
+        } else {
+            reference.textContent = titreFiche;
+            source.append(reference);
+        }
         const score = document.createElement('p');
         score.className = 'score';
         score.textContent = `Similarité ${nombre(r.score, 3)}`;
@@ -62,7 +74,7 @@ function afficherResultats({ question, resultats, dureeMs }) {
             score.textContent += ' · proximité faible';
             item.classList.add('faible');
         }
-        entete.append(reference, score);
+        entete.append(source, score);
         const texte = document.createElement('p');
         texte.className = 'texte';
         texte.textContent = r.texte;
