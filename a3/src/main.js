@@ -78,8 +78,14 @@ function afficherResultats({ question, resultats, dureeMs }) {
         const texte = document.createElement('p');
         texte.className = 'texte';
         texte.textContent = r.texte;
-        const suite = lien(r.url, 'Lire la fiche complète sur service-public.gouv.fr');
-        suite.setAttribute('aria-label', `Lire la fiche complète du résultat ${rang + 1}`);
+        // Quand la section donne un numéro de partie (F1882-2.1 donne 2), le lien ouvre et déplie cette partie.
+        const numeroPartie = Number(/^F\d+-(\d+)/.exec(r.section)?.[1] ?? 0);
+        const versPartie = numeroPartie >= 1 && parties.length > 0;
+        const texteLien = versPartie
+            ? `Lire la partie « ${parties[0]} » sur service-public.gouv.fr`
+            : 'Lire la fiche complète sur service-public.gouv.fr';
+        const suite = lien(versPartie ? `${r.url}#accordion-chapter-btn-${numeroPartie}` : r.url, texteLien);
+        suite.setAttribute('aria-label', `${texteLien} (résultat ${rang + 1})`);
         item.append(entete, texte, suite);
         return item;
     }));
