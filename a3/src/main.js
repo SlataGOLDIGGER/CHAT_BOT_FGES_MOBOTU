@@ -47,6 +47,11 @@ function activer(actif) {
     exemples.forEach((b) => { b.disabled = !actif; });
 }
 
+// Même condition que la carte de recherche fixe (style.css, section 4) : la page peut alors glisser
+// jusqu'aux passages sans faire disparaître la question.
+const colonneFixe = matchMedia('(min-width: 1100px) and (min-height: 700px)');
+const mouvementReduit = matchMedia('(prefers-reduced-motion: reduce)');
+
 function afficherResultats({ question, resultats, dureeMs }) {
     $('resume-resultats').textContent =
         `${resultats.length} passages pour « ${question} » (calculés en ${nombre(dureeMs, 0)} ms).`;
@@ -114,6 +119,10 @@ function afficherResultats({ question, resultats, dureeMs }) {
     }));
     ajusterLireSuite();
     bouton.disabled = false;
+    // « Ce que vous pouvez interroger » sort par le haut et les passages arrivent sous les yeux.
+    if (colonneFixe.matches) {
+        document.querySelector('.resultats').scrollIntoView({ behavior: mouvementReduit.matches ? 'auto' : 'smooth', block: 'start' });
+    }
 }
 
 // Le bouton « Lire la suite » n'apparaît que si le passage replié dépasse vraiment quatre lignes.

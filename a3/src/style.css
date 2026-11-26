@@ -12,6 +12,7 @@
    3. Bandeau et paysage             8. Pied de page
    4. Mise en page                   9. Page des mentions
    5. Carte « Votre question »      10. Accessibilité et mouvement
+                                    11. Écran large mais bas
    ===================================================================== */
 
 @import "@fontsource/barlow/400.css";
@@ -213,7 +214,10 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
   .evaluation, #diagnostic { grid-column: 1 / -1; }
 }
 
-/* Quand le moteur est prêt, la carte de recherche reste visible pendant le défilement. */
+/* Quand le moteur est prêt, la carte de recherche reste visible pendant le défilement.
+   main.js reprend la même condition pour faire glisser la page jusqu'aux passages après
+   une recherche ; avec le scroll-padding-top de html, leur titre s'arrête à la hauteur
+   de celui de la carte. */
 @media (min-width: 1100px) and (min-height: 700px) {
   .recherche:has(.etat.pret) { position: sticky; top: 1.5rem; }
 }
@@ -708,6 +712,9 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 }
 
 .bandeau--court .paysage { height: clamp(110px, 11vw, 170px); }
+/* Le paysage raccourci coupe le ciel par le haut : le soleil et le nuage n'en
+   laisseraient qu'un mince morceau, on les retire. */
+.bandeau--court .d-soleil, .bandeau--court .d-nuage { display: none; }
 
 .mentions {
   display: grid;
@@ -818,4 +825,20 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 @media print {
   .paysage, .pied-immeubles, .sommaire, #vider-cache { display: none; }
   .carte { box-shadow: none; }
+}
+
+
+/* 11. Écran large mais bas -------------------------------------------- */
+
+/* Portable de 15 pouces avec un zoom de 125 % : fenêtre d'environ 1536 × 730 px.
+   Le paysage prend la hauteur de la page des mentions, pour que le champ et le bouton
+   se voient dès l'ouverture, et la carte « Votre question » se resserre un peu pour
+   rester entière quand elle reste fixe pendant le défilement. Placé en dernier :
+   ces règles doivent l'emporter sur celles des sections 3 et 5. */
+@media (min-width: 960px) and (max-height: 800px) {
+  .paysage { height: clamp(110px, 11vw, 170px); }
+  .paysage .d-soleil, .paysage .d-nuage { display: none; }
+  .recherche .carte { gap: 1rem; padding-block: 1.25rem; }
+  #formulaire { gap: 1rem; }
+  .etat { padding-top: 1rem; }
 }
