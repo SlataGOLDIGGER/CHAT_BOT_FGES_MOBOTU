@@ -79,8 +79,23 @@ function afficherResultats({ question, resultats, dureeMs }) {
         }
         entete.append(source, score);
         const texte = document.createElement('p');
-        texte.className = 'texte';
-        texte.textContent = r.texte;
+        texte.className = 'texte replie';
+        texte.id = `texte-resultat-${rang + 1}`;
+        // Une fenêtre qui n'est pas la première de sa section commence souvent au milieu d'une phrase.
+        const milieuDePhrase = /#f\d+$/.test(r.id) && !r.id.endsWith('#f1');
+        texte.textContent = milieuDePhrase ? `… ${r.texte.trimStart()}` : r.texte;
+        // Sur téléphone, le texte est limité à quatre lignes (style.css) ; ce bouton l'affiche en entier.
+        const lireSuite = document.createElement('button');
+        lireSuite.type = 'button';
+        lireSuite.className = 'lire-suite';
+        lireSuite.textContent = 'Lire la suite';
+        lireSuite.setAttribute('aria-controls', texte.id);
+        lireSuite.setAttribute('aria-expanded', 'false');
+        lireSuite.addEventListener('click', () => {
+            const replie = texte.classList.toggle('replie');
+            lireSuite.textContent = replie ? 'Lire la suite' : 'Réduire';
+            lireSuite.setAttribute('aria-expanded', String(!replie));
+        });
         // Quand la section donne un numéro de partie (F1882-2.1 donne 2), le lien ouvre et déplie cette partie.
         const numeroPartie = Number(/^F\d+-(\d+)/.exec(r.section)?.[1] ?? 0);
         const versPartie = numeroPartie >= 1 && parties.length > 0;
@@ -89,11 +104,20 @@ function afficherResultats({ question, resultats, dureeMs }) {
             : 'Lire la fiche complète sur service-public.gouv.fr';
         const suite = lien(versPartie ? `${r.url}#accordion-chapter-btn-${numeroPartie}` : r.url, texteLien);
         suite.setAttribute('aria-label', `${texteLien} (résultat ${rang + 1})`);
-        item.append(entete, texte, suite);
+        item.append(entete, texte, lireSuite, suite);
         return item;
     }));
+    ajusterLireSuite();
     bouton.disabled = false;
 }
+
+// Le bouton « Lire la suite » n'apparaît que si le passage replié dépasse vraiment quatre lignes.
+function ajusterLireSuite() {
+    for (const texte of document.querySelectorAll('#liste-resultats .texte.replie')) {
+        texte.nextElementSibling.hidden = texte.scrollHeight <= texte.clientHeight + 1;
+    }
+}
+matchMedia('(max-width: 600px)').addEventListener('change', ajusterLireSuite);
 
 function preparerEvaluation() {
     $('panneau-evaluation').hidden = false;
