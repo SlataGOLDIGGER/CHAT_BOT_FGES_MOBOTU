@@ -58,6 +58,7 @@ h2 {
 .sous-titre,
 .hors-perimetre,
 .exemples,
+.astuce,
 .pied {
   color: var(--secondaire);
 }
@@ -125,7 +126,8 @@ button:disabled {
 }
 
 .exemple,
-#vider-cache {
+#vider-cache,
+.lire-suite {
   background: transparent;
   color: var(--accent);
   padding: 0.3rem 0.6rem;
@@ -133,7 +135,8 @@ button:disabled {
 }
 
 .exemple:hover:not(:disabled),
-#vider-cache:hover:not(:disabled) {
+#vider-cache:hover:not(:disabled),
+.lire-suite:hover:not(:disabled) {
   background: transparent;
   text-decoration: underline;
 }
@@ -186,6 +189,12 @@ button:disabled {
   flex-wrap: wrap;
 }
 
+.fiche {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--secondaire);
+}
+
 .reference {
   font-weight: 600;
   margin: 0;
@@ -205,6 +214,26 @@ button:disabled {
 .texte {
   white-space: pre-line;
   margin: 0.4rem 0;
+}
+
+.lire-suite {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .texte.replie {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .lire-suite:not([hidden]) {
+    display: block;
+    margin: 0 0 0.4rem;
+    padding: 0.2rem 0.6rem;
+  }
 }
 
 a {

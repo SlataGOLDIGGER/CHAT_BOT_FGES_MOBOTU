@@ -10,4 +10,4 @@ export const PREFIXES = { requete: 'query: ', passage: 'passage: ' };
 export const DIMENSION = 384;
 export const NB_RESULTATS = 5;
 export const NB_CLASSEMENT_EVALUATION = 50;
-export const SEUIL_PERTINENCE = null;
+export const SEUIL_PERTINENCE = 0.865;
