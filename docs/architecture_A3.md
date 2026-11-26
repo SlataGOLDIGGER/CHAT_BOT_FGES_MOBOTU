@@ -55,14 +55,14 @@ page ◄── perimetre, progression, pret, resultats, erreur, evaluation, diag
 
 ## 4. Spécification UX
 
-- **Périmètre affiché** au-dessus du champ : nombre de fiches et de passages, date de collecte, liste des fiches avec lien et date de mise à jour, thèmes non couverts.
+- **Périmètre affiché** à droite du champ sur ordinateur (au-dessus des résultats) et sous le formulaire sur téléphone : nombre de fiches et de passages, date de collecte, liste des fiches avec lien et date de mise à jour, thèmes non couverts.
 - **Chargement** : message d'état et deux barres de progression (index, modèle), taille téléchargée du modèle ; message « Moteur prêt en x s » ; zone d'état annoncée aux lecteurs d'écran (`aria-live`).
 - **Saisie** : champ de recherche étiqueté, 300 caractères au plus, trois exemples cliquables ; question vide refusée avec message.
 - **Résultats** : liste ordonnée ; pour chaque passage, la référence (chemin de titres), le score de similarité à trois décimales, le texte du passage, le lien « Lire la fiche complète » ; durée du calcul ; aide « Comment lire le score ? » ; mention « proximité faible » sous un seuil calibré sur le développement.
 - **États** : vide (invitation), recherche en cours, erreur de chargement (message et conduite à tenir), cache indisponible (avertissement), index incompatible (erreur explicite).
 - **Accessibilité** : langue déclarée, lien d'évitement, titres hiérarchisés, contrastes suffisants, focus visible, navigation complète au clavier, respect de la préférence de réduction des animations, mode sombre.
 - **Mobile** : mise en page fluide, champ et bouton qui passent à la ligne, cibles tactiles suffisantes.
-- **Transparence** : pied de page indiquant que la question n'est envoyée à aucun serveur, d'où viennent le modèle et le moteur, et l'attribution de la source.
+- **Transparence** : pied de page indiquant que la question n'est envoyée à aucun serveur, d'où viennent le modèle et le moteur, et l'attribution de la source ; lien vers la page « Mentions légales et confidentialité » (`a3/mentions.html` : éditeur, hébergeur, données personnelles, sources).
 
 ## 5. Mesures prévues
 
