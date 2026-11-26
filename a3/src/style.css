@@ -172,10 +172,38 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .bandeau { background: var(--ciel); }
 
 .bandeau-contenu {
+  position: relative;
   max-width: var(--largeur-max);
   margin: 0 auto;
   padding: clamp(2rem, 4vw, 3.25rem) var(--marge) 0;
 }
+
+/* Bouton du mode clair ou sombre (src/theme.js) : une simple icône en haut à droite,
+   lune quand la page est claire, soleil quand elle est sombre. Le titre lui laisse
+   la place pour ne jamais passer dessous sur téléphone. */
+.bandeau-contenu h1 { padding-right: 3.25rem; }
+
+.bouton-theme {
+  position: absolute;
+  top: 0.75rem;
+  right: var(--marge);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-height: 0;
+  padding: 0;
+  color: var(--secondaire);
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 50%;
+}
+.bouton-theme[hidden] { display: none; }
+.bouton-theme:hover:not(:disabled) { color: var(--vert-fonce); background: var(--surface); border-color: var(--bord); }
+.bouton-theme svg { width: 1.3rem; height: 1.3rem; }
+.bouton-theme .icone-soleil,
+.bouton-theme[data-mode="sombre"] .icone-lune { display: none; }
+.bouton-theme[data-mode="sombre"] .icone-soleil { display: block; }
 
 .sous-titre {
   max-width: 44rem;
@@ -823,7 +851,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 }
 
 @media print {
-  .paysage, .pied-immeubles, .sommaire, #vider-cache { display: none; }
+  .paysage, .pied-immeubles, .sommaire, #vider-cache, .bouton-theme { display: none; }
   .carte { box-shadow: none; }
 }
 

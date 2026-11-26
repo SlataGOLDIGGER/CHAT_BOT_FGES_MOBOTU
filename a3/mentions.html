@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mentions légales et confidentialité | Stages : trouver le bon passage</title>
   <meta name="description" content="Éditeur, hébergeur, données personnelles et sources du site Stages : trouver le bon passage." />
+  <script>
+    // Mode choisi avec le bouton du bandeau (src/theme.js), appliqué avant l'affichage.
+    try { const t = localStorage.getItem('stages-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch { }
+  </script>
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 
@@ -20,6 +24,11 @@
       </a>
       <h1>Mentions légales et confidentialité</h1>
       <p class="sous-titre">Qui édite et héberge ce site, ce qu'il fait de vos données et d'où viennent ses contenus.</p>
+      <!-- Mode clair ou sombre : affiché et géré par src/theme.js. -->
+      <button type="button" id="bouton-theme" class="bouton-theme" hidden>
+        <svg class="icone-lune" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.4 13.3A8.5 8.5 0 1 1 10.7 3.6A7 7 0 0 0 20.4 13.3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+        <svg class="icone-soleil" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
     </div>
     <!-- Même paysage que la page d'accueil, recadré par le CSS. Décoratif. -->
     <svg class="paysage" viewBox="0 0 1536 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
@@ -207,6 +216,10 @@
           («&nbsp;Cache Storage&nbsp;»). Ce stockage ne contient aucune information sur vous et ne sert pas à vous suivre. Vous
           pouvez l'effacer avec le bouton «&nbsp;Effacer le cache du modèle&nbsp;», en bas de la page de recherche, ou en effaçant
           les données de ce site dans les réglages de votre navigateur. Aucun cookie n'est déposé.</p>
+        <p>Si vous choisissez le mode clair ou le mode sombre avec le bouton en haut de la page, votre navigateur garde
+          aussi ce choix dans sa mémoire locale («&nbsp;localStorage&nbsp;») pour les visites suivantes. Cette information
+          ne contient rien d'autre et disparaît si vous revenez au mode de votre système ou si vous effacez les données de
+          ce site.</p>
 
         <h3>Vos droits</h3>
         <p>Vous pouvez demander l'accès à vos données, leur rectification ou leur effacement, en limiter l'utilisation
@@ -257,6 +270,7 @@
       </div>
     </div>
   </footer>
+  <script type="module" src="/src/theme.js"></script>
 </body>
 
 </html>
