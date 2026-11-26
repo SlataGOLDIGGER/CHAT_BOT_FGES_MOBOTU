@@ -58,6 +58,7 @@ h2 {
 .sous-titre,
 .hors-perimetre,
 .exemples,
+.astuce,
 .pied {
   color: var(--secondaire);
 }
