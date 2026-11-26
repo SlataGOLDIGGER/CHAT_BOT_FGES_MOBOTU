@@ -16,6 +16,9 @@ const combinaison = `${modele}/${strategie}`;
 
 const worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
 worker.postMessage({ type: 'initialiser', modele, strategie });
+// La page reste utilisable pendant le premier chargement : une question posée avant la fin attend le moteur.
+let moteurPret = false;
+let questionEnAttente = null;
 
 function lien(url, texte) {
     const a = document.createElement('a');
@@ -116,10 +119,17 @@ worker.onmessage = ({ data }) => {
     } else if (data.type === 'avertissement') {
         $('message-etat').textContent = data.message;
     } else if (data.type === 'pret') {
+        moteurPret = true;
         $('message-etat').textContent = `Moteur prêt en ${nombre(data.dureeMs / 1000, 1)} s. Posez votre question.`;
         $('etat').classList.add('pret');
         activer(true);
-        champ.focus();
+        if (questionEnAttente !== null) {
+            const question = questionEnAttente;
+            questionEnAttente = null;
+            chercher(question);
+        } else if (document.activeElement === document.body) {
+            champ.focus();
+        }
         if (parametres.has('evaluation')) preparerEvaluation();
         if (parametres.has('diagnostic')) {
             const demande = parametres.get('diagnostic');
@@ -141,6 +151,10 @@ worker.onmessage = ({ data }) => {
         $('etat').classList.add('erreur');
         $('message-etat').textContent = `Le moteur n'a pas pu démarrer : ${data.message} Rechargez la page ; si le problème persiste, essayez un autre navigateur.`;
         activer(false);
+        if (questionEnAttente !== null) {
+            questionEnAttente = null;
+            $('resume-resultats').textContent = "Recherche annulée : le moteur n'a pas pu démarrer.";
+        }
     }
 };
 
@@ -149,6 +163,11 @@ function chercher(question) {
     if (!texte) {
         $('resume-resultats').textContent = 'Saisissez une question avant de lancer la recherche.';
         champ.focus();
+        return;
+    }
+    if (!moteurPret) {
+        questionEnAttente = texte;
+        $('resume-resultats').textContent = 'Votre recherche sera lancée dès que le moteur sera prêt.';
         return;
     }
     bouton.disabled = true;
