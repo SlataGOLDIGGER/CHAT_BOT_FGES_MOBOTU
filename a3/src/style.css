@@ -787,18 +787,6 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .essentiel { background: var(--surface-douce); }
 
-/* Informations que l'équipe doit encore remplir. */
-.a-completer {
-  padding: 0 0.35rem;
-  font-weight: 600;
-  color: var(--alerte);
-  background: var(--alerte-fond);
-  border: 1px dashed var(--alerte);
-  border-radius: 6px;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-
 .tableau-defilant { overflow-x: auto; }
 
 .traitements {
