@@ -5,12 +5,13 @@ Site statique construit avec Vite. L'inférence se fait dans le navigateur du vi
 | Élément | Rôle |
 |---|---|
 | `index.html` | structure de la page : périmètre, champ de recherche, états, résultats, pied de page |
+| `mentions.html` | page « Mentions légales et confidentialité » : éditeur, hébergeur, données personnelles, sources |
 | `src/` | interface, Web Worker et fonctions de recherche communes |
 | `scripts/` | construction de l'index statique à partir du corpus |
 | `public/data/` | index publié (généré par `npm run index`, versionné car servi par le site) |
 | `training/` | affinage de l'encodeur par l'équipe, export ONNX et quantification (exécuté sur Kaggle) |
 | `package.json`, `package-lock.json` | dépendances à versions exactes, installées par `npm ci` |
-| `vite.config.js` | configuration de construction |
+| `vite.config.js` | configuration de construction (deux pages : `index.html` et `mentions.html`) |
 | `vercel.json` | construction et en-têtes HTTP sur Vercel |
 
 Commandes (dans ce dossier) : `npm ci`, `npm run index`, `npm run dev`, `npm run build`, `npm run preview`.

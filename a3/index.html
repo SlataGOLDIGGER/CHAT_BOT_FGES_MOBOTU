@@ -7,82 +7,232 @@
   <title>Stages : trouver le bon passage dans les fiches officielles</title>
   <meta name="description"
     content="Recherche sémantique dans des fiches Service-Public sur les stages, calculée dans votre navigateur." />
+  <script>
+    // Mode choisi avec le bouton du bandeau (src/theme.js), appliqué avant l'affichage.
+    try { const t = localStorage.getItem('stages-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch { }
+  </script>
 </head>
 
 <body>
   <a class="evitement" href="#recherche">Aller directement à la recherche</a>
-  <header class="entete">
-    <h1>Stages : trouver le bon passage</h1>
-    <p class="sous-titre">
-      Posez une question en français : le site retrouve, dans des fiches officielles, les passages les plus proches
-      du sens de votre question. Il ne rédige aucune réponse : il vous montre où lire.
-    </p>
+
+  <header class="bandeau">
+    <div class="bandeau-contenu">
+      <h1>Stage : les bons repères</h1>
+      <p class="sous-titre">
+        Posez une question en français : le site retrouve, dans des fiches officielles, les passages les plus proches
+        du sens de votre question. Il ne rédige aucune réponse : il vous montre où lire.
+      </p>
+      <!-- Mode clair ou sombre : affiché et géré par src/theme.js. -->
+      <button type="button" id="bouton-theme" class="bouton-theme" hidden>
+        <svg class="icone-lune" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.4 13.3A8.5 8.5 0 1 1 10.7 3.6A7 7 0 0 0 20.4 13.3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+        <svg class="icone-soleil" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      </button>
+    </div>
+    <!-- Paysage : l'école, le chemin, l'étudiante, le panneau « Stage » et les bureaux. Décoratif. -->
+    <svg class="paysage" viewBox="0 0 1536 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <circle class="d-soleil" cx="1330" cy="58" r="30" />
+      <g class="d-nuage" opacity="0.9">
+        <ellipse cx="420" cy="56" rx="54" ry="16" />
+        <ellipse cx="452" cy="45" rx="30" ry="18" />
+      </g>
+      <path class="d-colline-loin" d="M0 150 C180 118 340 128 520 146 S880 110 1060 136 S1360 120 1536 140 V240 H0 Z" />
+      <path class="d-colline-pres" d="M0 188 C220 168 420 178 620 186 S1000 166 1200 182 S1420 176 1536 184 V240 H0 Z" />
+      <path class="d-sol" d="M0 214 C300 206 640 212 960 208 S1360 206 1536 212 V240 H0 Z" />
+      <path class="d-chemin" d="M300 214 C420 234 520 196 660 204 S880 230 1000 213 S1160 198 1252 210" stroke-width="16" stroke-linecap="round" />
+      <!-- École -->
+      <rect class="d-mur" x="200" y="140" width="140" height="74" />
+      <path class="d-toit" d="M190 144 L270 102 L350 144 Z" />
+      <circle cx="270" cy="128" r="9" fill="#ffffff" />
+      <path d="M270 122 V128 H275" fill="none" stroke="#13302a" stroke-width="1.8" stroke-linecap="round" />
+      <rect x="238" y="150" width="64" height="15" rx="2" fill="#13302a" />
+      <text x="270" y="161.5" text-anchor="middle" font-family="Barlow, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="#ffffff">ÉCOLE</text>
+      <g class="d-vitre">
+        <rect x="212" y="174" width="20" height="22" rx="2" />
+        <rect x="308" y="174" width="20" height="22" rx="2" />
+      </g>
+      <path class="d-porte" d="M258 214 V188 A12 12 0 0 1 282 188 V214 Z" />
+      <!-- Arbres -->
+      <rect class="d-bois" x="417.5" y="196" width="5" height="20" />
+      <circle class="d-feuille" cx="420" cy="190" r="16" />
+      <rect class="d-bois" x="468" y="200" width="4" height="15" />
+      <circle class="d-feuille-2" cx="470" cy="196" r="11" />
+      <rect class="d-bois" x="1077" y="192" width="6" height="21" />
+      <circle class="d-feuille" cx="1080" cy="186" r="17" />
+      <rect class="d-bois" x="1128" y="198" width="4" height="15" />
+      <circle class="d-feuille-2" cx="1130" cy="194" r="12" />
+      <!-- Panneau « Stage » -->
+      <rect class="d-bois" x="857" y="150" width="6" height="64" />
+      <path class="d-toit" d="M818 156 H918 L932 169 L918 182 H818 Z" />
+      <text x="868" y="174" text-anchor="middle" font-family="Barlow, sans-serif" font-size="13" font-weight="700" letter-spacing="1.5" fill="#ffffff">STAGE</text>
+      <!-- Bureaux -->
+      <rect class="d-mur-2" x="1200" y="150" width="46" height="62" />
+      <g class="d-vitre">
+        <rect x="1210" y="162" width="10" height="12" /><rect x="1226" y="162" width="10" height="12" />
+        <rect x="1210" y="184" width="10" height="12" /><rect x="1226" y="184" width="10" height="12" />
+      </g>
+      <rect class="d-mur" x="1246" y="78" width="100" height="134" />
+      <rect class="d-toit" x="1246" y="78" width="100" height="10" />
+      <g class="d-vitre">
+        <rect x="1258" y="100" width="20" height="12" /><rect x="1286" y="100" width="20" height="12" /><rect x="1314" y="100" width="20" height="12" />
+        <rect x="1258" y="122" width="20" height="12" /><rect x="1286" y="122" width="20" height="12" /><rect x="1314" y="122" width="20" height="12" />
+        <rect x="1258" y="144" width="20" height="12" /><rect x="1286" y="144" width="20" height="12" /><rect x="1314" y="144" width="20" height="12" />
+        <rect x="1258" y="166" width="20" height="12" /><rect x="1314" y="166" width="20" height="12" />
+      </g>
+      <rect x="1284" y="184" width="24" height="28" fill="#0d4a39" />
+      <rect class="d-mur-2" x="1360" y="130" width="58" height="82" />
+      <g class="d-vitre">
+        <rect x="1370" y="142" width="14" height="12" /><rect x="1394" y="142" width="14" height="12" />
+        <rect x="1370" y="162" width="14" height="12" /><rect x="1394" y="162" width="14" height="12" />
+        <rect x="1370" y="182" width="14" height="12" /><rect x="1394" y="182" width="14" height="12" />
+      </g>
+      <!-- L'étudiante -->
+      <g transform="translate(640 206) scale(0.78) translate(-435 -251)">
+        <rect x="408" y="186" width="18" height="28" rx="5" fill="#0d4a39" />
+        <path d="M430 214 L418 252 M434 214 L444 232 L452 250" fill="none" stroke="#13302a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M420 190 L410 208" fill="none" stroke="#d4621a" stroke-width="7" stroke-linecap="round" />
+        <path d="M420 184 H442 A6 6 0 0 1 448 190 V216 H414 V190 A6 6 0 0 1 420 184 Z" fill="#e8731f" />
+        <path d="M444 190 L458 206" fill="none" stroke="#e8731f" stroke-width="7" stroke-linecap="round" />
+        <path d="M424 186 L430 200" fill="none" stroke="#0d4a39" stroke-width="3" stroke-linecap="round" />
+        <circle cx="433" cy="172" r="11" fill="#f0c19b" />
+        <path d="M422 171 A11 11 0 0 1 444 168 C438 166 432 167 428 172 Z" fill="#3a2a1f" />
+        <path d="M423 168 C417 170 415 176 417 181" fill="none" stroke="#3a2a1f" stroke-width="5" stroke-linecap="round" />
+      </g>
+    </svg>
   </header>
 
-  <main>
-    <section class="perimetre" aria-labelledby="titre-perimetre">
-      <h2 id="titre-perimetre">Ce que vous pouvez interroger</h2>
-      <p id="perimetre-resume">Chargement du périmètre…</p>
-      <ul id="liste-fiches"></ul>
-      <p class="hors-perimetre">
-        Non couvert : stages à l'étranger, règlement de votre établissement, fonctionnaires stagiaires, aides et
-        prestations sociales (prime d'activité, aides au logement, bourses), situation personnelle.
-      </p>
-    </section>
+  <main class="mise-en-page">
 
+    <!-- Colonne de gauche : la question -->
     <section id="recherche" class="recherche" aria-labelledby="titre-recherche">
-      <h2 id="titre-recherche">Votre question</h2>
-      <form id="formulaire" role="search">
-        <label for="question">Question en langage naturel</label>
-        <div class="champ">
-          <input id="question" name="question" type="search" autocomplete="off" maxlength="300"
-            placeholder="Ex. : mon stage de trois mois doit-il être payé ?" />
-          <button id="bouton" type="submit">Rechercher</button>
-        </div>
-        <p class="exemples">
-          Essayez :
-          <button type="button" class="exemple">Combien est payé un stagiaire ?</button>
-          <button type="button" class="exemple">Puis-je faire un stage dans une mairie ?</button>
-          <button type="button" class="exemple">Mon stage compte-t-il dans la période d'essai ?</button>
-        </p>
-        <p class="astuce">
-          Les fiches emploient leurs propres mots : gratification pour l'argent versé au stagiaire, convention pour le
-          document signé entre l'établissement et l'entreprise.
-        </p>
-      </form>
-      <div id="etat" class="etat" role="status" aria-live="polite">
-        <p id="message-etat">Premier chargement : 113 Mo. Vous pouvez déjà taper votre question.</p>
-        <div class="progression">
-          <span>Index des passages</span>
-          <progress id="progres-index" max="100" value="0"></progress>
-        </div>
-        <div class="progression">
-          <span>Modèle (téléchargé une seule fois)</span>
-          <progress id="progres-modele" max="100" value="0"></progress>
-          <span id="taille-modele"></span>
+      <h2 id="titre-recherche" class="titre-section">Votre question</h2>
+      <div class="carte">
+        <form id="formulaire" role="search">
+          <div>
+            <label for="question">Question en langage naturel</label>
+            <div class="champ">
+              <input id="question" name="question" type="search" autocomplete="off" maxlength="300"
+                placeholder="Ex. : mon stage de trois mois doit-il être payé ?" />
+              <button id="bouton" type="submit">
+                Rechercher
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
+          <div class="exemples">
+            <span>Essayez :</span>
+            <button type="button" class="exemple">Combien est payé un stagiaire ?</button>
+            <button type="button" class="exemple">Puis-je faire un stage dans une mairie ?</button>
+            <button type="button" class="exemple">Mon stage compte-t-il dans la période d'essai ?</button>
+          </div>
+          <p class="astuce">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect class="d-bois" x="10.8" y="9" width="2.4" height="13" /><path class="d-repere" d="M4 3 H17 L20.5 6.5 L17 10 H4 Z" /></svg>
+            <span>Les fiches emploient leurs propres mots : <strong>gratification</strong> pour l'argent versé au
+              stagiaire, <strong>convention</strong> pour le document signé entre l'établissement et l'entreprise.</span>
+          </p>
+        </form>
+
+        <!-- main.js : ajoute la classe « pret » quand le moteur est prêt (les barres disparaissent alors),
+             retire « hidden » du badge quand l'index est chargé, et met à jour --avance avec la barre du modèle. -->
+        <div id="etat" class="etat" role="status" aria-live="polite">
+          <p id="message-etat">Premier chargement : 113 Mo. Vous pouvez déjà taper votre question.</p>
+          <div class="progression">
+            <div class="progression-entete">
+              <span>Index des passages</span>
+              <span class="badge-pret" hidden>Prêt</span>
+            </div>
+            <progress id="progres-index" max="100" value="0" aria-label="Chargement de l'index des passages"></progress>
+          </div>
+          <div class="progression">
+            <div class="progression-entete">
+              <span>Modèle (téléchargé une seule fois)</span>
+              <span id="taille-modele"></span>
+            </div>
+            <div class="route" style="--avance: 0%">
+              <div class="route-etape" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path class="d-toit" d="M3 10 L12 4 L21 10 Z" /><rect class="d-mur" x="5" y="10" width="14" height="10" stroke="currentColor" stroke-width="1.6" /><rect class="d-porte" x="10" y="14" width="4" height="6" /></svg>
+                0 Mo
+              </div>
+              <div class="route-piste">
+                <progress id="progres-modele" max="100" value="0" aria-label="Téléchargement du modèle"></progress>
+                <svg class="route-marcheur" viewBox="0 0 22 30" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="3.5" fill="currentColor" /><rect x="3" y="9" width="6" height="9" rx="2" fill="#0d4a39" /><path d="M8 9 H15 A2 2 0 0 1 17 11 V19 H6 V11 A2 2 0 0 1 8 9 Z" fill="#e8731f" /><path d="M10 19 L7 28 M14 19 L17 28" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" /><path d="M16 11 L19 16" fill="none" stroke="#e8731f" stroke-width="2.4" stroke-linecap="round" /></svg>
+              </div>
+              <div class="route-etape" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><rect class="d-mur" x="6" y="3" width="12" height="18" stroke="currentColor" stroke-width="1.6" /><g fill="currentColor"><rect x="9" y="6" width="2" height="2" /><rect x="13" y="6" width="2" height="2" /><rect x="9" y="10" width="2" height="2" /><rect x="13" y="10" width="2" height="2" /></g><rect class="d-toit" x="10.5" y="15" width="3" height="6" /></svg>
+                113 Mo
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="resultats" aria-labelledby="titre-resultats">
-      <h2 id="titre-resultats">Passages trouvés</h2>
-      <p>
-        Le site ne couvre que les 7 fiches listées plus haut. Si aucun passage ne parle de votre question, la réponse
-        n'est sans doute pas dans ces fiches.
-      </p>
-      <details class="aide-score">
-        <summary>Comment lire le score ?</summary>
-        <p>
-          Le score est une similarité cosinus entre le sens de votre question et celui du passage. Plus il est
-          élevé, plus le passage est proche. Il sert à comparer les passages entre eux : ce n'est ni une probabilité,
-          ni une garantie que le passage répond à votre question.
-        </p>
-      </details>
-      <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
-      <ol id="liste-resultats"></ol>
-    </section>
+    <!-- Colonne de droite : les fiches, puis les passages -->
+    <div class="colonne-droite">
 
-    <section id="panneau-evaluation" class="evaluation" aria-labelledby="titre-evaluation" hidden>
+      <section class="perimetre" aria-labelledby="titre-perimetre">
+        <h2 id="titre-perimetre" class="titre-section">Ce que vous pouvez interroger</h2>
+        <div class="carte">
+          <div class="perimetre-entete">
+            <p id="perimetre-resume">Chargement du périmètre…</p>
+            <svg viewBox="0 0 120 110" aria-hidden="true" focusable="false">
+              <ellipse class="d-ombre" cx="60" cy="104" rx="26" ry="4" />
+              <rect class="d-bois" x="57" y="18" width="6" height="86" rx="2" />
+              <path class="d-toit" d="M63 22 H104 L112 30 L104 38 H63 Z" />
+              <path class="d-repere" d="M57 44 H18 L10 52 L18 60 H57 Z" />
+              <path class="d-feuille" d="M63 66 H98 L106 74 L98 82 H63 Z" />
+              <circle cx="60" cy="16" r="5" fill="currentColor" />
+              <g stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.85">
+                <line x1="70" y1="30" x2="94" y2="30" /><line x1="24" y1="52" x2="48" y2="52" /><line x1="70" y1="74" x2="90" y2="74" />
+              </g>
+            </svg>
+          </div>
+          <ul id="liste-fiches" role="list"></ul>
+          <p class="hors-perimetre">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="#c2410c" /><rect x="6" y="10" width="12" height="4" rx="1" fill="#ffffff" /></svg>
+            <span><strong>Non couvert :</strong> stages à l'étranger, règlement de votre établissement, fonctionnaires
+              stagiaires, aides et prestations sociales (prime d'activité, aides au logement, bourses), situation
+              personnelle.</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="resultats" aria-labelledby="titre-resultats">
+        <h2 id="titre-resultats" class="titre-section">Passages trouvés</h2>
+        <div class="carte">
+          <p class="resultats-intro">
+            Le site ne couvre que les 7 fiches listées plus haut. Si aucun passage ne parle de votre question, la réponse
+            n'est sans doute pas dans ces fiches.
+          </p>
+          <details class="aide-score">
+            <summary>Comment lire le score ?</summary>
+            <p>
+              Le score est une similarité cosinus entre le sens de votre question et celui du passage. Plus il est
+              élevé, plus le passage est proche. Il sert à comparer les passages entre eux : ce n'est ni une probabilité,
+              ni une garantie que le passage répond à votre question.
+            </p>
+          </details>
+          <!-- Plan avec l'épingle : visible seulement tant que la liste des résultats est vide. -->
+          <div class="resultats-vide" aria-hidden="true">
+            <svg viewBox="0 0 220 150" focusable="false">
+              <ellipse class="d-ombre" cx="110" cy="142" rx="90" ry="6" />
+              <path class="d-carte" d="M20 30 L80 20 L80 126 L20 136 Z" stroke-width="1.6" stroke-linejoin="round" />
+              <path class="d-carte-2" d="M80 20 L140 30 L140 136 L80 126 Z" stroke-width="1.6" stroke-linejoin="round" />
+              <path class="d-carte" d="M140 30 L200 20 L200 126 L140 136 Z" stroke-width="1.6" stroke-linejoin="round" />
+              <path class="d-riviere" d="M20 100 C60 90 90 110 140 96 S190 80 200 86" stroke-width="5" />
+              <path class="d-trace" d="M36 118 C60 80 100 110 120 72 S170 62 176 56" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" />
+              <circle class="d-point" cx="36" cy="118" r="5" />
+              <path class="d-repere" d="M176 58 C168 46 164 40 164 34 A12 12 0 0 1 188 34 C188 40 184 46 176 58 Z" />
+              <circle cx="176" cy="34" r="4.5" fill="#ffffff" />
+            </svg>
+          </div>
+          <p id="resume-resultats" aria-live="polite">Les résultats s'afficheront ici.</p>
+          <ol id="liste-resultats" role="list"></ol>
+        </div>
+      </section>
+    </div>
+
+    <section id="panneau-evaluation" class="evaluation carte" aria-labelledby="titre-evaluation" hidden>
       <h2 id="titre-evaluation">Mode évaluation (équipe)</h2>
       <p id="evaluation-config"></p>
       <label for="fichier-questions">Fichier de questions (JSONL), lu dans le navigateur sans envoi</label>
@@ -95,14 +245,30 @@
   </main>
 
   <footer class="pied">
-    <p id="attribution"></p>
-    <p>
-      Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur. Le modèle (environ
-      115 Mo) est téléchargé une fois depuis Hugging Face et le moteur d'exécution depuis jsDelivr, puis conservés
-      dans le cache du navigateur.
-    </p>
-    <button id="vider-cache" type="button">Effacer le cache du modèle</button>
+    <!-- Rangée d'immeubles au trait. Décoratif. -->
+    <svg class="pied-immeubles" viewBox="0 0 1536 80" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <path d="M0 58 H60 V44 H118 V66 H150 V26 H200 V54 H246 V36 H300 V62 H340 V18 H372 V8 H378 V18 H400 V50 H452 V40 H520 V68 H560 V40 L586 22 L612 40 V56 H660 V46 H716 V22 H770 V60 H812 V42 H870 V64 H910 V30 H962 V52 H1010 V38 H1060 V66 H1100 V24 H1140 V14 H1146 V24 H1170 V48 H1222 V36 H1280 V62 H1320 V34 H1372 V54 H1420 V42 H1470 V60 H1536" />
+      <rect x="160" y="38" width="8" height="8" /><rect x="180" y="38" width="8" height="8" /><rect x="160" y="54" width="8" height="8" />
+      <rect x="348" y="30" width="8" height="8" /><rect x="348" y="46" width="8" height="8" /><rect x="580" y="44" width="10" height="10" />
+      <rect x="726" y="34" width="8" height="8" /><rect x="746" y="34" width="8" height="8" /><rect x="726" y="50" width="8" height="8" />
+      <rect x="1110" y="36" width="8" height="8" /><rect x="1124" y="52" width="8" height="8" /><rect x="1330" y="46" width="8" height="8" />
+    </svg>
+    <div class="pied-contenu">
+      <div class="pied-textes">
+        <p id="attribution"></p>
+        <p>
+          Le calcul se fait dans votre navigateur : votre question n'est envoyée à aucun serveur. Le modèle (environ
+          113 Mo) est téléchargé une fois depuis Hugging Face et le moteur d'exécution depuis jsDelivr, puis conservés
+          dans le cache du navigateur.
+        </p>
+      </div>
+      <div class="pied-actions">
+        <button id="vider-cache" type="button">Effacer le cache du modèle</button>
+        <a href="./mentions.html">Mentions légales et confidentialité</a>
+      </div>
+    </div>
   </footer>
+  <script type="module" src="/src/theme.js"></script>
   <script type="module" src="/src/main.js"></script>
 </body>
 
