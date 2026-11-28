@@ -27,5 +27,5 @@
     "fichier": "onnx/model_quantized.onnx",
     "licence": "mit"
   },
-  "adaptateur": null
+  "adaptateur": {"depot": "fges-nlp-a3b1/qwen3-4b-stages-lora", "revision": "c97bf3bfa8ef0cd29bfecdfd5a1faea507c791ac", "fichier": "adaptateur-v1.gguf", "sha256": "30fe55f0d7763879bd4ba61780c5f84f7973a3154322e1d530d7352f78d27a8d", "octets": 66095392, "version": "v1", "conversion": "convert_lora_to_gguf.py, llama.cpp b11146, f16"}
 }
