@@ -47,6 +47,11 @@ function activer(actif) {
     exemples.forEach((b) => { b.disabled = !actif; });
 }
 
+// Même condition que la carte de recherche fixe (style.css, section 4) : la page peut alors glisser
+// jusqu'aux passages sans faire disparaître la question.
+const colonneFixe = matchMedia('(min-width: 1100px) and (min-height: 700px)');
+const mouvementReduit = matchMedia('(prefers-reduced-motion: reduce)');
+
 function afficherResultats({ question, resultats, dureeMs }) {
     $('resume-resultats').textContent =
         `${resultats.length} passages pour « ${question} » (calculés en ${nombre(dureeMs, 0)} ms).`;
@@ -55,20 +60,21 @@ function afficherResultats({ question, resultats, dureeMs }) {
         item.className = 'resultat';
         const entete = document.createElement('div');
         entete.className = 'resultat-entete';
-        // Le titre de la fiche, commun à beaucoup de résultats, passe en petit au-dessus du reste de la référence.
+        // Le titre de la fiche, commun à beaucoup de résultats, passe dans une pastille au-dessus du reste de la référence.
         const [titreFiche, ...parties] = r.reference.split('›').map((morceau) => morceau.trim());
-        const source = document.createElement('div');
         const reference = document.createElement('p');
         reference.className = 'reference';
+        const section = document.createElement('span');
+        section.className = 'reference-section';
         if (parties.length) {
-            const fiche = document.createElement('p');
-            fiche.className = 'fiche';
+            const fiche = document.createElement('span');
+            fiche.className = 'reference-fiche';
             fiche.textContent = titreFiche;
-            reference.textContent = parties.join(' › ');
-            source.append(fiche, reference);
+            section.textContent = parties.join(' › ');
+            reference.append(fiche, section);
         } else {
-            reference.textContent = titreFiche;
-            source.append(reference);
+            section.textContent = titreFiche;
+            reference.append(section);
         }
         const score = document.createElement('p');
         score.className = 'score';
@@ -77,13 +83,17 @@ function afficherResultats({ question, resultats, dureeMs }) {
             score.textContent += ' · proximité faible';
             item.classList.add('faible');
         }
-        entete.append(source, score);
+        entete.append(reference, score);
         const texte = document.createElement('p');
         texte.className = 'texte replie';
         texte.id = `texte-resultat-${rang + 1}`;
         // Une fenêtre qui n'est pas la première de sa section commence souvent au milieu d'une phrase.
-        const milieuDePhrase = /#f\d+$/.test(r.id) && !r.id.endsWith('#f1');
-        texte.textContent = milieuDePhrase ? `… ${r.texte.trimStart()}` : r.texte;
+        const fenetre = /#f\d+$/.test(r.id);
+        const milieuDePhrase = fenetre && !r.id.endsWith('#f1');
+        // Coupée à longueur fixe, une fenêtre sans ponctuation finale s'arrête souvent en plein mot.
+        const finCoupee = fenetre && !/[.!?…:»)]$/.test(r.texte.trimEnd());
+        const debut = milieuDePhrase ? `… ${r.texte.trimStart()}` : r.texte;
+        texte.textContent = finCoupee ? `${debut.trimEnd()}…` : debut;
         // Sur téléphone, le texte est limité à quatre lignes (style.css) ; ce bouton l'affiche en entier.
         const lireSuite = document.createElement('button');
         lireSuite.type = 'button';
@@ -109,6 +119,10 @@ function afficherResultats({ question, resultats, dureeMs }) {
     }));
     ajusterLireSuite();
     bouton.disabled = false;
+    // « Ce que vous pouvez interroger » sort par le haut et les passages arrivent sous les yeux.
+    if (colonneFixe.matches) {
+        document.querySelector('.resultats').scrollIntoView({ behavior: mouvementReduit.matches ? 'auto' : 'smooth', block: 'start' });
+    }
 }
 
 // Le bouton « Lire la suite » n'apparaît que si le passage replié dépasse vraiment quatre lignes.
@@ -139,6 +153,9 @@ worker.onmessage = ({ data }) => {
     if (data.type === 'perimetre') afficherPerimetre(data.index);
     else if (data.type === 'progression') {
         $(data.element === 'index' ? 'progres-index' : 'progres-modele').value = data.pourcentage;
+        // La silhouette suit la barre du modèle ; le badge « Prêt » apparaît quand l'index est chargé.
+        if (data.element === 'modele') document.querySelector('.route')?.style.setProperty('--avance', `${data.pourcentage}%`);
+        if (data.element === 'index' && data.pourcentage >= 100) document.querySelector('.badge-pret')?.removeAttribute('hidden');
         if (data.total) $('taille-modele').textContent = `${nombre(data.charge / 2 ** 20, 0)} / ${nombre(data.total / 2 ** 20, 0)} Mo`;
     } else if (data.type === 'avertissement') {
         $('message-etat').textContent = data.message;

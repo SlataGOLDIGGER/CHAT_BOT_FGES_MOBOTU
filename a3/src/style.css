@@ -1,225 +1,645 @@
+/* =====================================================================
+   Stages : trouver le bon passage, feuille de style du thème « Le parcours »
+   (page de recherche et page des mentions).
+
+   Police : Barlow 400, 500, 600 et 700, hébergée avec le site
+   (paquet npm @fontsource/barlow). Ne pas la charger depuis Google Fonts :
+   ce serait un tiers de plus qui reçoit l'adresse IP des visiteurs.
+
+   Sommaire
+   1. Couleurs (clair et sombre)     6. Colonne de droite : fiches
+   2. Base                           7. Colonne de droite : passages
+   3. Bandeau et paysage             8. Pied de page
+   4. Mise en page                   9. Page des mentions
+   5. Carte « Votre question »      10. Accessibilité et mouvement
+                                    11. Écran large mais bas
+   ===================================================================== */
+
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow/700.css";
+
+
+/* 1. Couleurs --------------------------------------------------------- */
+
 :root {
-  --fond: #f7f8fa;
-  --surface: #ffffff;
-  --texte: #1b1f24;
-  --secondaire: #4a5462;
-  --accent: #1f4fd1;
-  --accent-fonce: #173c9f;
-  --texte-sur-accent: #ffffff;
-  --bord: #d5dae1;
-  --alerte: #9a3412;
-  --rayon: 0.6rem;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.55;
-  color: var(--texte);
-  background: var(--fond);
+  color-scheme: light dark;
+
+  --fond: light-dark(#f4f7f5, #0e1f1b);
+  --surface: light-dark(#ffffff, #142a24);
+  --surface-douce: light-dark(#f3f8f5, #183229);
+  --texte: light-dark(#13302a, #e4efe9);
+  --secondaire: light-dark(#4a6159, #a9c2b8);
+  --bord: light-dark(#d8e4de, #27463d);
+  --vert: light-dark(#146b52, #7fd1ad);
+  --vert-fonce: light-dark(#0d4a39, #a6e3c8);
+  --vert-pale: light-dark(#e3f1ea, #1c3a32);
+  --sur-vert: light-dark(#ffffff, #0e1f1b);
+  --orange: light-dark(#e8731f, #f08a3c);
+  --alerte: light-dark(#9a3412, #fdba74);
+  --alerte-fond: light-dark(#fff4ec, #2d1d12);
+  --alerte-bord: light-dark(#f6c9a8, #6b3d1d);
+  --ciel: light-dark(#e6f1ee, #10261f);
+  --route: light-dark(#dfe9e4, #23433a);
+  --route-tiret: light-dark(#ffffff, #3c5f55);
+  --route-faite-tiret: light-dark(#8fd3b6, #0e1f1b);
+  --pied: light-dark(#0f2a24, #0a1c18);
+  --pied-texte: #d6e8df;
+  --pied-lien: #a7e3c8;
+  --pied-trait: #2d6555;
+  --ombre: 0 16px 34px -26px light-dark(rgb(15 42 36 / 0.45), rgb(0 0 0 / 0.75));
+
+  /* Dessins : la nuit, le paysage s'assombrit et les fenêtres s'allument. */
+  --d-soleil: light-dark(#fbe0bd, #efe6c8);
+  --d-nuage: light-dark(#ffffff, #23403a);
+  --d-colline-loin: light-dark(#cfe6db, #1a3a31);
+  --d-colline-pres: light-dark(#b5dbc8, #22503f);
+  --d-chemin: light-dark(#ecdcb6, #4a4532);
+  --d-mur: light-dark(#ffffff, #2a4a40);
+  --d-mur-2: light-dark(#eef6f2, #23423a);
+  --d-vitre: light-dark(#cfe5f0, #ffd98a);
+  --d-toit: light-dark(#146b52, #2f7a5f);
+  --d-porte: light-dark(#e8731f, #c9651f);
+  --d-bois: light-dark(#7a5a36, #5a4430);
+  --d-feuille: light-dark(#3f9a74, #2d6e54);
+  --d-feuille-2: light-dark(#5fb08c, #3b8466);
+  --d-carte: light-dark(#e6f2ec, #1c3a32);
+  --d-carte-2: light-dark(#f7fbf9, #213f37);
+  --d-carte-trait: light-dark(#9cbfb0, #4b7a6b);
+  --d-riviere: light-dark(#c4e2ee, #2b5566);
+
+  --largeur-max: 1440px;
+  --marge: clamp(1.25rem, 4vw, 4rem);
+  --rayon: 14px;
+  --rayon-petit: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fond: #111418;
-    --surface: #1a1f26;
-    --texte: #e8ebef;
-    --secondaire: #aab4c0;
-    --accent: #8fb0ff;
-    --accent-fonce: #c3d3ff;
-    --texte-sur-accent: #111418;
-    --bord: #323a45;
-    --alerte: #fdba74;
-  }
-}
+/* Un thème imposé par le visiteur (ou par l'aperçu) l'emporte sur le réglage du système. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 
-* {
-  box-sizing: border-box;
-}
+.d-soleil { fill: var(--d-soleil); }
+.d-nuage { fill: var(--d-nuage); }
+.d-colline-loin { fill: var(--d-colline-loin); }
+.d-colline-pres { fill: var(--d-colline-pres); }
+.d-sol { fill: var(--fond); }
+.d-chemin { fill: none; stroke: var(--d-chemin); }
+.d-mur { fill: var(--d-mur); }
+.d-mur-2 { fill: var(--d-mur-2); }
+.d-vitre { fill: var(--d-vitre); }
+.d-toit { fill: var(--d-toit); }
+.d-porte { fill: var(--d-porte); }
+.d-bois { fill: var(--d-bois); }
+.d-feuille { fill: var(--d-feuille); }
+.d-feuille-2 { fill: var(--d-feuille-2); }
+.d-carte { fill: var(--d-carte); stroke: var(--d-carte-trait); }
+.d-carte-2 { fill: var(--d-carte-2); stroke: var(--d-carte-trait); }
+.d-riviere { fill: none; stroke: var(--d-riviere); }
+.d-trace { fill: none; stroke: var(--vert); }
+.d-point { fill: var(--vert); }
+.d-repere { fill: var(--orange); }
+.d-ombre { fill: var(--texte); opacity: 0.08; }
+
+
+/* 2. Base ------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-padding-top: 1.5rem; }
 
 body {
   margin: 0;
+  background: var(--fond);
+  color: var(--texte);
+  font: 400 1.0625rem/1.6 "Barlow", "Segoe UI", system-ui, sans-serif;
+  overflow-x: clip;
 }
 
-main,
-.entete,
-.pied {
-  max-width: 52rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
+h1, h2, h3 { margin: 0; font-weight: 600; line-height: 1.2; }
 h1 {
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
-  margin: 1.5rem 0 0.5rem;
+  font-size: clamp(2.1rem, 1.3rem + 2.6vw, 3.3rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.15rem; }
+p { margin: 0; }
 
-h2 {
-  font-size: 1.15rem;
-  margin: 0 0 0.6rem;
+a { color: var(--vert); text-underline-offset: 3px; }
+a:hover { color: var(--vert-fonce); }
+
+button, input { font: inherit; }
+
+button {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  color: var(--sur-vert);
+  background: var(--vert);
+  border: 2px solid var(--vert);
+  border-radius: 12px;
 }
+button:hover:not(:disabled) { background: var(--vert-fonce); border-color: var(--vert-fonce); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
 
-.sous-titre,
-.hors-perimetre,
-.exemples,
-.astuce,
-.pied {
-  color: var(--secondaire);
-}
-
-section {
-  background: var(--surface);
-  border: 1px solid var(--bord);
-  border-radius: var(--rayon);
-  padding: 1rem 1.2rem;
-  margin: 1rem 0;
+.visuellement-cache {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .evitement {
   position: absolute;
-  left: -999px;
-}
-
-.evitement:focus {
   left: 1rem;
-  top: 1rem;
-  background: var(--surface);
-  padding: 0.5rem;
-  z-index: 1;
-}
-
-label {
+  top: -10rem;
+  z-index: 10;
+  padding: 0.6rem 1rem;
   font-weight: 600;
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-.champ {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-input[type='search'] {
-  flex: 1 1 16rem;
-  font-size: 1rem;
-  padding: 0.7rem 0.8rem;
-  border: 1px solid var(--bord);
-  border-radius: var(--rayon);
-  background: var(--fond);
   color: var(--texte);
+  background: var(--surface);
+  border-radius: var(--rayon-petit);
+}
+.evitement:focus { top: 1rem; }
+
+
+/* 3. Bandeau et paysage ----------------------------------------------- */
+
+.bandeau { background: var(--ciel); }
+
+.bandeau-contenu {
+  position: relative;
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3.25rem) var(--marge) 0;
 }
 
-button {
-  font: inherit;
-  cursor: pointer;
-  border-radius: var(--rayon);
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: var(--texte-sur-accent);
-  padding: 0.6rem 1.1rem;
-}
+/* Bouton du mode clair ou sombre (src/theme.js) : une simple icône en haut à droite,
+   lune quand la page est claire, soleil quand elle est sombre. Le titre lui laisse
+   la place pour ne jamais passer dessous sur téléphone. */
+.bandeau-contenu h1 { padding-right: 3.25rem; }
 
-button:hover:not(:disabled) {
-  background: var(--accent-fonce);
-}
-
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.exemple,
-#vider-cache,
-.lire-suite {
+.bouton-theme {
+  position: absolute;
+  top: 0.75rem;
+  right: var(--marge);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-height: 0;
+  padding: 0;
+  color: var(--secondaire);
   background: transparent;
-  color: var(--accent);
-  padding: 0.3rem 0.6rem;
-  margin: 0.2rem 0.2rem 0 0;
+  border: 1.5px solid transparent;
+  border-radius: 50%;
+}
+.bouton-theme[hidden] { display: none; }
+.bouton-theme:hover:not(:disabled) { color: var(--vert-fonce); background: var(--surface); border-color: var(--bord); }
+.bouton-theme svg { width: 1.3rem; height: 1.3rem; }
+.bouton-theme .icone-soleil,
+.bouton-theme[data-mode="sombre"] .icone-lune { display: none; }
+.bouton-theme[data-mode="sombre"] .icone-soleil { display: block; }
+
+.sous-titre {
+  max-width: 44rem;
+  margin-top: 0.9rem;
+  font-size: 1.2rem;
+  color: var(--secondaire);
+  text-wrap: pretty;
 }
 
-.exemple:hover:not(:disabled),
-#vider-cache:hover:not(:disabled),
-.lire-suite:hover:not(:disabled) {
-  background: transparent;
-  text-decoration: underline;
+/* Le paysage occupe toute la largeur ; sur petit écran il se recadre sur le centre. */
+.paysage {
+  display: block;
+  width: 100%;
+  height: clamp(140px, 16vw, 240px);
+  margin-top: 0.5rem;
 }
 
-:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+
+/* 4. Mise en page ----------------------------------------------------- */
+
+.mise-en-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem 3rem;
+  align-items: start;
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  padding: 2.5rem var(--marge) 4.5rem;
 }
 
-.etat {
-  margin-top: 1rem;
+.colonne-droite { display: grid; gap: 2.5rem; min-width: 0; }
+
+/* Portable et grand écran : la question à gauche, fiches et passages à droite. */
+@media (min-width: 960px) {
+  .mise-en-page { grid-template-columns: minmax(20rem, 29rem) minmax(0, 1fr); padding-top: 3rem; }
+  .evaluation, #diagnostic { grid-column: 1 / -1; }
 }
 
-.etat.pret .progression {
-  display: none;
+/* Quand le moteur est prêt, la carte de recherche reste visible pendant le défilement.
+   main.js reprend la même condition pour faire glisser la page jusqu'aux passages après
+   une recherche ; avec le scroll-padding-top de html, leur titre s'arrête à la hauteur
+   de celui de la carte. */
+@media (min-width: 1100px) and (min-height: 700px) {
+  .recherche:has(.etat.pret) { position: sticky; top: 1.5rem; }
 }
 
-.etat.erreur #message-etat {
-  color: var(--alerte);
-  font-weight: 600;
-}
-
-.progression {
+/* Titre de section avec son repère rond. */
+.titre-section {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  font-size: 0.9rem;
+  gap: 0.65rem;
+  margin-bottom: 0.9rem;
+}
+.titre-section::before {
+  content: "";
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: var(--surface);
+  border: 4px solid var(--orange);
+  border-radius: 50%;
 }
 
-.progression progress {
-  flex: 1 1 10rem;
-  height: 0.6rem;
+.carte {
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  background: var(--surface);
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
 }
+
+
+/* 5. Carte « Votre question » ----------------------------------------- */
+
+.recherche .carte { display: grid; gap: 1.25rem; }
+
+#formulaire { display: grid; gap: 1.2rem; }
+
+#formulaire label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+
+.champ { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.champ input[type="search"] {
+  flex: 1 1 100%;
+  min-width: 0;
+  padding: 0.85rem 1.05rem;
+  color: var(--texte);
+  background: var(--surface);
+  border: 2px solid light-dark(#9cc2b2, #3c6a5c);
+  border-radius: 12px;
+}
+.champ input[type="search"]::placeholder { color: var(--secondaire); opacity: 1; }
+.champ input[type="search"]:focus { border-color: var(--vert); }
+
+#bouton {
+  flex: 1 1 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+}
+#bouton svg { width: 18px; height: 18px; }
+
+.exemples {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--secondaire);
+  font-size: 0.95rem;
+}
+
+.exemple {
+  padding: 0.45rem 1rem;
+  font-size: 0.97rem;
+  font-weight: 400;
+  text-align: left;
+  color: var(--vert-fonce);
+  background: var(--surface);
+  border: 1.5px solid var(--vert);
+  border-radius: 999px;
+}
+.exemple:hover:not(:disabled) { color: var(--sur-vert); }
+
+.astuce {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  background: var(--surface-douce);
+  border-radius: var(--rayon-petit);
+}
+.astuce svg { flex: none; width: 22px; height: 22px; margin-top: 0.1rem; }
+.astuce strong {
+  font-weight: 600;
+  color: var(--vert-fonce);
+  text-decoration: underline 2px var(--orange);
+  text-underline-offset: 4px;
+}
+
+/* État du moteur et barres de chargement */
+.etat {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1.5px dashed var(--bord);
+}
+#message-etat { font-weight: 600; }
+
+.etat.pret #message-etat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--vert-fonce);
+}
+.etat.pret #message-etat::before {
+  content: "";
+  flex: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.etat.pret .progression { display: none; }
+.etat.erreur #message-etat { color: var(--alerte); }
+
+.progression { display: grid; gap: 0.4rem; }
+
+.progression-entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  font-size: 0.97rem;
+  font-weight: 500;
+}
+#taille-modele { font-weight: 700; color: var(--vert-fonce); font-variant-numeric: tabular-nums; }
+
+.badge-pret {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: var(--vert);
+}
+.badge-pret[hidden] { display: none; }
+.badge-pret::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.1rem;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Les barres sont de vraies balises <progress>, dessinées comme une route. */
+.progression progress {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  height: 12px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: var(--route);
+  background-image: repeating-linear-gradient(90deg, var(--route-tiret) 0 10px, transparent 10px 20px);
+  background-size: 100% 2px;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+}
+.progression progress::-webkit-progress-bar { background: transparent; }
+.progression progress::-webkit-progress-value {
+  border-radius: 999px;
+  background-color: var(--vert);
+  background-image: repeating-linear-gradient(90deg, var(--route-faite-tiret) 0 10px, transparent 10px 20px);
+  background-size: 100% 2px;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+}
+.progression progress::-moz-progress-bar {
+  border-radius: 999px;
+  background-color: var(--vert);
+  background-image: repeating-linear-gradient(90deg, var(--route-faite-tiret) 0 10px, transparent 10px 20px);
+  background-size: 100% 2px;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+}
+#progres-index { height: 10px; }
+
+/* Route du modèle : l'école, la route avec la silhouette, les bureaux.
+   main.js met à jour --avance (en %) en même temps que la valeur de la barre. */
+.route { display: flex; align-items: flex-end; gap: 0.6rem; }
+
+.route-etape {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  font-size: 0.78rem;
+  color: var(--secondaire);
+  font-variant-numeric: tabular-nums;
+}
+.route-etape svg { width: 28px; height: 28px; }
+
+.route-piste {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 36px 0 22px;
+}
+
+.route-marcheur {
+  position: absolute;
+  left: var(--avance, 0%);
+  bottom: 30px;
+  width: 22px;
+  height: 30px;
+  margin-left: -11px;
+  color: var(--texte);
+  animation: marche 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes marche {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+
+/* 6. Colonne de droite : fiches --------------------------------------- */
+
+.perimetre-entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+.perimetre-entete p { max-width: 34rem; }
+.perimetre-entete svg { flex: none; width: 100px; height: auto; }
+
+#liste-fiches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: 0.6rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* main.js produit : <li><a href="…">Titre</a> (mise à jour du …)</li>.
+   Le lien passe sur sa propre ligne, la date reste en dessous en gris. */
+#liste-fiches li {
+  position: relative;
+  padding: 0.7rem 0.85rem 0.7rem 2.45rem;
+  font-size: 0.85rem;
+  color: var(--secondaire);
+  background: var(--surface-douce);
+  border-radius: var(--rayon-petit);
+  font-variant-numeric: tabular-nums;
+}
+#liste-fiches li::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 0.95rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--surface);
+  border: 3px solid var(--vert);
+  border-radius: 50%;
+}
+#liste-fiches a {
+  display: block;
+  margin-bottom: 0.1rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.hors-perimetre {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.97rem;
+  color: var(--texte);
+  background: var(--alerte-fond);
+  border: 1px solid var(--alerte-bord);
+  border-radius: var(--rayon-petit);
+}
+.hors-perimetre svg { flex: none; width: 22px; height: 22px; margin-top: 0.1rem; }
+.hors-perimetre strong { font-weight: 600; color: var(--alerte); }
+
+
+/* 7. Colonne de droite : passages ------------------------------------- */
+
+.resultats .carte { display: grid; gap: 1rem; }
+.resultats-intro { max-width: 46rem; color: var(--secondaire); }
+
+.aide-score { font-size: 0.97rem; }
+.aide-score summary { width: fit-content; font-weight: 600; color: var(--vert); cursor: pointer; }
+.aide-score p { max-width: 46rem; margin-top: 0.5rem; color: var(--secondaire); }
+
+/* Avant la première recherche : le plan avec l'épingle. */
+.resultats-vide { display: none; }
+.resultats:has(#liste-resultats:empty) .resultats-vide {
+  display: grid;
+  justify-items: center;
+  padding: 2rem 1.5rem 0.5rem;
+  background: var(--surface-douce);
+  border-radius: 12px 12px 0 0;
+}
+.resultats-vide svg { width: min(220px, 100%); height: auto; }
+.resultats:has(#liste-resultats:empty) #resume-resultats {
+  margin-top: -1rem;
+  padding: 0.9rem 1.5rem 1.75rem;
+  text-align: center;
+  color: var(--secondaire);
+  background: var(--surface-douce);
+  border-radius: 0 0 12px 12px;
+}
+#resume-resultats { font-weight: 600; }
 
 #liste-resultats {
-  padding-left: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: passage;
 }
 
 .resultat {
-  margin: 0 0 1.2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--bord);
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.3rem 0 1.3rem 3.25rem;
+  border-top: 1px solid var(--bord);
+  counter-increment: passage;
+}
+.resultat:last-child { padding-bottom: 0.3rem; }
+
+/* Numéro d'arrêt, comme sur une ligne de bus. */
+.resultat::before {
+  content: counter(passage);
+  position: absolute;
+  left: 0;
+  top: 1.3rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-weight: 700;
+  color: var(--surface);
+  background: var(--texte);
+  border-radius: 50%;
 }
 
 .resultat-entete {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.4rem 1rem;
 }
-
-.fiche {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--secondaire);
+@media (max-width: 520px) {
+  .resultat-entete { grid-template-columns: minmax(0, 1fr); }
 }
+.reference { display: grid; gap: 0.45rem; min-width: 0; font-size: 1.15rem; font-weight: 600; line-height: 1.35; }
 
-.reference {
-  font-weight: 600;
-  margin: 0;
+/* main.js découpe la référence sur « › » : la fiche dans une pastille, la section en titre. */
+.reference-fiche {
+  justify-self: start;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--vert-fonce);
+  background: var(--vert-pale);
+  border-radius: 999px;
 }
-
 .score {
-  margin: 0;
-  color: var(--secondaire);
-  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+  font-weight: 600;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
+.resultat.faible .score { color: var(--alerte); }
 
-.resultat.faible .score {
-  color: var(--alerte);
-}
+.texte { max-width: 42rem; white-space: pre-line; }
 
-.texte {
-  white-space: pre-line;
-  margin: 0.4rem 0;
-}
-
-.lire-suite {
-  display: none;
-}
-
+/* Sur téléphone, un passage est replié à quatre lignes. main.js n'affiche
+   « Lire la suite » que si le texte replié dépasse vraiment ces quatre lignes. */
+.lire-suite { display: none; }
 @media (max-width: 600px) {
   .texte.replie {
     display: -webkit-box;
@@ -228,31 +648,213 @@ button:disabled {
     line-clamp: 4;
     overflow: hidden;
   }
-
   .lire-suite:not([hidden]) {
-    display: block;
-    margin: 0 0 0.4rem;
-    padding: 0.2rem 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    padding: 0.35rem 0;
+    font-size: 0.97rem;
+    color: var(--vert);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .lire-suite:hover:not(:disabled) { color: var(--vert-fonce); background: transparent; }
+}
+
+.resultat > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-self: start;
+  font-size: 0.97rem;
+  font-weight: 600;
+}
+.resultat > a::after {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Panneau d'évaluation réservé à l'équipe (caché par défaut). */
+.evaluation { display: grid; gap: 0.8rem; }
+.evaluation[hidden] { display: none; }
+#diagnostic {
+  overflow-x: auto;
+  padding: 1rem;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  background: var(--surface);
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon-petit);
+}
+
+
+/* 8. Pied de page ----------------------------------------------------- */
+
+.pied { color: var(--pied-texte); background: var(--pied); }
+
+.pied-immeubles {
+  display: block;
+  width: 100%;
+  height: clamp(48px, 5.2vw, 80px);
+}
+.pied-immeubles path, .pied-immeubles rect { fill: none; stroke: var(--pied-trait); stroke-width: 2; stroke-linejoin: round; }
+.pied-immeubles rect { stroke-width: 1.5; }
+
+.pied-contenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem 4rem;
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  padding: 1.75rem var(--marge) 3rem;
+  font-size: 0.97rem;
+}
+.pied-textes { display: grid; gap: 0.6rem; flex: 1 1 36rem; min-width: 0; max-width: 60rem; }
+.pied-actions { display: grid; justify-items: start; gap: 0.9rem; }
+.pied a { font-weight: 600; color: var(--pied-lien); }
+.pied a:hover { color: #ffffff; }
+
+#vider-cache {
+  color: #ffffff;
+  background: transparent;
+  border: 1.5px solid #8fd3b6;
+}
+#vider-cache:hover:not(:disabled) { color: #0f2a24; background: #8fd3b6; border-color: #8fd3b6; }
+
+
+/* 9. Page des mentions ------------------------------------------------ */
+
+.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+}
+
+.bandeau--court .paysage { height: clamp(110px, 11vw, 170px); }
+/* Le paysage raccourci coupe le ciel par le haut : le soleil et le nuage n'en
+   laisseraient qu'un mince morceau, on les retire. */
+.bandeau--court .d-soleil, .bandeau--court .d-nuage { display: none; }
+
+.mentions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center;
+  gap: 2rem 3rem;
+  align-items: start;
+  max-width: var(--largeur-max);
+  margin: 0 auto;
+  padding: 2.5rem var(--marge) 4.5rem;
+}
+
+.sommaire {
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--bord);
+  border-radius: var(--rayon);
+}
+.sommaire h2 { margin-bottom: 0.6rem; font-size: 1.1rem; }
+.sommaire ol { display: grid; gap: 0.15rem; margin: 0; padding: 0; list-style: none; }
+.sommaire a {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  margin-inline: -0.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.sommaire a:hover { background: var(--surface-douce); text-decoration: underline; }
+
+@media (min-width: 960px) {
+  .mentions { grid-template-columns: 16rem minmax(0, 52rem); }
+  .sommaire { position: sticky; top: 1.5rem; }
+}
+
+.document { display: grid; gap: 1.5rem; min-width: 0; }
+.document .carte { display: grid; gap: 0.9rem; }
+.document .titre-section { margin-bottom: 0; }
+.document h3 { margin-top: 0.6rem; }
+.document ul { display: grid; gap: 0.5rem; margin: 0; padding-left: 1.2rem; }
+.document li::marker { color: var(--orange); }
+
+.essentiel { background: var(--surface-douce); }
+
+.tableau-defilant { overflow-x: auto; }
+
+.traitements {
+  width: 100%;
+  min-width: 44rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.traitements th, .traitements td {
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--bord);
+}
+.traitements thead th {
+  font-weight: 600;
+  color: var(--secondaire);
+  background: var(--surface-douce);
+}
+.traitements tbody th { font-weight: 600; }
+
+/* Sur téléphone, chaque ligne du tableau devient une petite fiche. */
+@media (max-width: 720px) {
+  .traitements { min-width: 0; }
+  .traitements thead { display: none; }
+  .traitements tr {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--bord);
+  }
+  .traitements th, .traitements td { display: block; padding: 0; border: 0; }
+  .traitements td::before {
+    content: attr(data-l) " : ";
+    font-weight: 600;
+    color: var(--secondaire);
   }
 }
 
-a {
-  color: var(--accent);
-}
+.maj { margin-top: 0.5rem; font-size: 0.95rem; color: var(--secondaire); }
 
-.pied {
-  padding-bottom: 2rem;
-  font-size: 0.9rem;
-}
 
-#diagnostic {
-  white-space: pre-wrap;
-  font-size: 0.8rem;
-}
+/* 10. Accessibilité et mouvement -------------------------------------- */
+
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media print {
+  .paysage, .pied-immeubles, .sommaire, #vider-cache, .bouton-theme { display: none; }
+  .carte { box-shadow: none; }
+}
+
+
+/* 11. Écran large mais bas -------------------------------------------- */
+
+/* Portable de 15 pouces avec un zoom de 125 % : fenêtre d'environ 1536 × 730 px.
+   Le paysage prend la hauteur de la page des mentions, pour que le champ et le bouton
+   se voient dès l'ouverture, et la carte « Votre question » se resserre un peu pour
+   rester entière quand elle reste fixe pendant le défilement. Placé en dernier :
+   ces règles doivent l'emporter sur celles des sections 3 et 5. */
+@media (min-width: 960px) and (max-height: 800px) {
+  .paysage { height: clamp(110px, 11vw, 170px); }
+  .paysage .d-soleil, .paysage .d-nuage { display: none; }
+  .recherche .carte { gap: 1rem; padding-block: 1.25rem; }
+  #formulaire { gap: 1rem; }
+  .etat { padding-top: 1rem; }
 }
