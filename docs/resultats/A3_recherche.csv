@@ -10,3 +10,6 @@ date;combinaison;questions;n;R@1;R@3;R@5;R@10;MRR@10;nDCG@10;ic95_ndcg_bas;ic95_
 26/10/2026;tfidf/paragraphe;questions_dev.jsonl;16;0.3438;0.6875;0.8125;0.9375;0.6007;0.6814;0.5316;0.8243
 2026-11-21,affine/fenetre,questions_dev.jsonl,32,0.7135,0.9531,0.9688,1.0000,0.8906,0.9118,0.8473,0.9688
 2026-11-21,pre-export/fenetre,questions_dev.jsonl,32,0.6198,0.8177,0.8750,1.0000,0.7865,0.8320,0.7408,0.9130
+2026-11-28,pre/fenetre,questions_test.jsonl,30,0.7333,0.9667,0.9667,0.9833,0.8889,0.8978,0.8300,0.9558
+2026-11-28,bm25/fenetre,questions_test.jsonl,30,0.8333,0.9667,1.0000,1.0000,0.9361,0.9521,0.8951,1.0000
+2026-11-28,tfidf/fenetre,questions_test.jsonl,30,0.7667,0.9667,0.9667,1.0000,0.8992,0.9242,0.8552,0.9833
