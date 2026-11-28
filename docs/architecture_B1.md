@@ -37,7 +37,7 @@ Si la mémoire manque, nous réduisons d'abord le contexte, puis nous passons à
 
 ## 4. RAG
 
-**Récupération.** Les passages de la stratégie choisie sur le développement sont encodés une fois (index mis en cache dans `artifacts/b1/index/`, clé dérivée de l'empreinte des passages et de la révision de l'encodeur) ; la question est encodée avec le préfixe `query: ` ; les `k` = 5 passages les plus proches au sens du cosinus sont retenus. Stratégie par défaut : `section`, qui fournit au modèle des unités normatives complètes.
+**Récupération.** Les passages de la stratégie choisie sur le développement sont encodés une fois (index mis en cache dans `artifacts/b1/index/`, clé dérivée de l'empreinte des passages et de la révision de l'encodeur) ; la question est encodée avec le préfixe `query: ` ; les `k` = 5 passages les plus proches au sens du cosinus sont retenus. Stratégie retenue : `fenetre` (décision D10).
 
 **Gabarit de prompt.** Format ChatML de Qwen, écrit par notre code (et non par le gabarit embarqué dans le GGUF), identique à l'entraînement et à l'inférence :
 
@@ -94,3 +94,17 @@ Question : <question><|im_end|>
 
 - Démonstration en direct sur la machine de démonstration : serveur lancé à l'avance, interface ouverte, trois questions préparées (une réponse sourcée, une question conditionnelle, une question hors corpus), activation puis désactivation de l'adaptateur.
 - Vidéo de secours de 4 minutes au plus, enregistrée avant la soutenance avec la configuration gelée, lien testé par un autre membre.
+
+## 7. Configuration gelée (tag b1-config-gelee, 28/11/2026)
+
+| Élément | Valeur |
+|---|---|
+| Moteur | llama.cpp b11146, commit 7fe450e1, build affiché par le serveur : b11146-7fe450e19 |
+| Générateur | Qwen3-4B-Instruct-2507-Q4_K_M.gguf (quantification affichée par le serveur : Q4_K - Medium), SHA-256 3605803b… |
+| Adaptateur | dépôt fges-nlp-a3b1/qwen3-4b-stages-lora, fichier adaptateur-v1.gguf, révision c97bf3bf…, SHA-256 30fe55f0… (décision D15 de MOBOTU-73 : v1 confirmée) |
+| Encodeur de récupération | Xenova/multilingual-e5-small, révision 761b726d…, q8 |
+| Récupération | découpage fenetre, k = 5, seuil_score = 0.8403 (b1/config/rag.json, décision D10 de MOBOTU-62) |
+| Contexte et décodage | 4 096 tokens ; glouton (temperature 0, top_k 1, seed 42, 256 tokens au plus) |
+| Prompt | b1/rag/prompt.py au commit du tag |
+
+À partir de ce tag, aucun fichier de b1/rag/, b1/config/ et b1/scripts/lancer_serveur.py ne change jusqu'à la soutenance ; toute exception est une décision datée dans decisions.md.
