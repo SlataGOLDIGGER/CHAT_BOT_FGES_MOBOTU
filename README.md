@@ -51,7 +51,7 @@ npm ci
 python -m b1.scripts.installer_llama        # une fois : moteur llama.cpp figé
 python -m b1.scripts.telecharger_modeles    # une fois : modèles à révision figée, empreintes vérifiées
 python -m b1.scripts.lancer_serveur         # terminal 1, laissé ouvert
-streamlit run b1/app/app.py --server.address 127.0.0.1 --server.headless true --browser.gatherUsageStats false --client.toolbarMode minimal   # terminal 2, puis ouvrir http://127.0.0.1:8501
+streamlit run b1/app/app.py --server.address 127.0.0.1 --server.headless true --browser.gatherUsageStats false --client.toolbarMode viewer   # terminal 2, puis ouvrir http://127.0.0.1:8501, possibilité d'utiliser minimal au lieu de viewer
 ```
 
 Toutes les commandes Python s'exécutent depuis la racine du dépôt sous la forme `python -m paquet.module`.
