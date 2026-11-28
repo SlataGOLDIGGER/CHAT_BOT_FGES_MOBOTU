@@ -17,6 +17,7 @@ Chaque entrée est datée. Une décision qui modifie un point déclaré au J2 es
 | D11 | 26/10/2026 | Découpage de production du volet A | appliquée |
 | D14 | 15/11/2026 | Correction de l'étanchéité des familles de questions | appliquée localement, à annoncer |
 | D12 | 21/11/2026 | Go/no-go de l'encodeur affiné | appliquée |
+| D15 | 28/11/2026 | Adaptateur retenu pour l'évaluation finale : v1 confirmée | appliquée |
 
 ## D1 — Corpus : sept fiches, collecte XML officielle
 
@@ -126,3 +127,9 @@ nDCG@10 pre-export 0,832 ; affine 0,912 ; écart apparié +0,080 [IC95 −0,013 
 Diagnostic navigateur (113 passages, Chrome 156 sous Windows) : cosinus minimal affine 0,9768 ; pre-export 0,9947.
 Décision : no-go, parce que (1) la borne basse de l'intervalle de l'écart de nDCG@10 est négative (−0,013) et (3) le cosinus minimal du modèle affiné (0,9768) est inférieur à 0,99. Le critère (2) est respecté (Recall@5 affine 0,969 ≥ 0,855).
 Conséquence : le modèle de production reste `pre` avec le découpage `fenetre` ; `a3/` n'est pas modifié. Les lignes brutes sont dans `docs/resultats/A3_recherche.csv`, l'essai est documenté dans `docs/resultats/A3_recherche.md`.
+
+## D15 : Adaptateur retenu pour l'évaluation finale (28/11/2026)
+
+Contexte : l'adaptateur v1 n'a été publié que le 28/11 (MOBOTU-65), parce que le script QLoRA (MOBOTU-64) a été fusionné le 24/11 au lieu du 30/10. L'évaluation du développement (MOBOTU-67) et la décision d'itération D13 (MOBOTU-70) ne sont pas faites, et la soutenance a lieu le 30/11.
+Décision : pas d'adaptateur v2. La v1 est confirmée pour l'évaluation finale (renoncement n° 2 du plan : pas d'itération si le calendrier ne le permet pas). models.lock.json désigne adaptateur-v1.gguf (révision c97bf3bfa8ef0cd29bfecdfd5a1faea507c791ac).
+Limite : la preuve de chargement (MOBOTU-66) montre un faux refus de l'adaptateur sur sa question de contrôle. Si l'évaluation du développement confirme une hausse des faux refus, la v2 prévue par le protocole (part des exemples d'abstention ramenée de 0,5 à 0,25) est la première piste de la feuille de route. Le numéro D13 reste réservé à la décision de MOBOTU-70.
