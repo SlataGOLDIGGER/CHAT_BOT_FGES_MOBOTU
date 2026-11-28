@@ -48,12 +48,45 @@
   margin: 0;
   font-size: 0.875rem;
 }
-.as-bandeau img {
+.as-bandeau-illustration {
+  display: grid;
   flex: 0 1 560px;
   width: 560px;
   max-width: 100%;
-  height: auto;
   margin-right: 1.5rem;
+}
+.as-bandeau-illustration img {
+  grid-area: 1 / 1;          /* les deux versions superposées, une seule visible */
+  width: 100%;
+  height: auto;
+}
+/* Navigateurs sans light-dark() : le thème vient de st.context.theme (classe as-bandeau-sombre) */
+.as-bandeau .as-illustration-sombre,
+.as-bandeau-sombre .as-illustration-claire {
+  display: none;
+}
+.as-bandeau-sombre .as-illustration-sombre {
+  display: block;
+}
+/* Thème choisi dans le menu de Streamlit : la racine de l'app porte color-scheme: light ou dark,
+   et light-dark() suit ce choix tout de suite, sans relancer le script ni effacer la réponse. */
+@supports (color: light-dark(#000, #fff)) {
+  .as-bandeau {
+    background: light-dark(#EEE9DE, #26221B);
+  }
+  .as-bandeau p {
+    color: light-dark(#6B675D, #A8A49E);
+  }
+  .as-bandeau .as-illustration-claire,
+  .as-bandeau .as-illustration-sombre {
+    display: block;
+  }
+  .as-bandeau .as-illustration-claire {
+    mask-image: linear-gradient(light-dark(#000, transparent), light-dark(#000, transparent));
+  }
+  .as-bandeau .as-illustration-sombre {
+    mask-image: linear-gradient(light-dark(transparent, #000), light-dark(transparent, #000));
+  }
 }
 
 /* 2. Pleine largeur pour un écran de portable : marges réduites.
@@ -122,4 +155,15 @@
 [class*="st-key-cite_"] summary code,
 [class*="st-key-lu_"] summary code {
   font-size: 0.8125rem;   /* 13 px : le numéro S1… reste lisible */
+}
+
+/* 7. Colonne de gauche figée : la question et la réponse restent visibles sous la barre du haut
+      pendant qu'on fait défiler les sources. Seulement quand les deux colonnes sont côte à côte
+      (Streamlit les empile sous 640 px de large) et que l'écran est assez haut pour tout montrer. */
+@media (min-width: 641px) and (min-height: 640px) {
+  [data-testid="stColumn"]:has(.st-key-question) > [data-testid="stVerticalBlock"] {
+    position: sticky;
+    top: 4.25rem;            /* sous la barre du haut de Streamlit (3,75 rem) */
+    height: auto !important; /* sans cela, le bloc occupe toute la hauteur de la colonne */
+  }
 }

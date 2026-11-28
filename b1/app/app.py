@@ -2,10 +2,11 @@
 
 Lancement (serveur llama.cpp déjà lancé dans un autre terminal) :
   streamlit run b1/app/app.py --server.address 127.0.0.1 --server.headless true \
-    --browser.gatherUsageStats false --client.toolbarMode minimal
+    --browser.gatherUsageStats false --client.toolbarMode viewer
 
 Le thème (couleurs claires et sombres, police) est dans b1/app/.streamlit/config.toml ;
 les retouches CSS, les polices et l'illustration du bandeau sont dans b1/app/static/.
+Le menu en haut à droite (gardé par --client.toolbarMode viewer) permet de choisir le thème clair ou sombre.
 """
 import pathlib
 import re
@@ -81,7 +82,8 @@ def afficher_passage(source: dict, ouvert: bool, cle: str) -> None:
 
 config = charger_config()
 
-# Bandeau : couleurs et illustration suivent le thème actif (clair si le navigateur ne l'a pas encore indiqué).
+# Bandeau : couleurs et illustration suivent le thème actif, même changé dans le menu (CSS light-dark()).
+# La classe as-bandeau-sombre ne sert qu'aux navigateurs qui ne connaissent pas light-dark().
 sombre = st.context.theme.type == "dark"
 st.html(f"""
 <div class="as-bandeau{' as-bandeau-sombre' if sombre else ''}">
@@ -92,7 +94,10 @@ st.html(f"""
     <p class="as-bandeau-avertissement">Outil expérimental&nbsp;: il ne remplace ni la fiche officielle
       ni un conseil personnalisé.</p>
   </div>
-  <img src="app/static/illustration-{'sombre' if sombre else 'clair'}.png" alt="">
+  <div class="as-bandeau-illustration">
+    <img class="as-illustration-claire" src="app/static/illustration-clair.png" alt="">
+    <img class="as-illustration-sombre" src="app/static/illustration-sombre.png" alt="">
+  </div>
 </div>
 """)
 
