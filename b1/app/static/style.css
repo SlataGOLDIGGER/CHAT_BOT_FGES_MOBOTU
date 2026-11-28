@@ -1,0 +1,125 @@
+/* Interface du volet B : retouches légères par-dessus le thème de .streamlit/config.toml (Streamlit 1.64).
+   Chargé une seule fois en haut de app.py : st.html(DOSSIER / "static" / "style.css").
+   Les règles visent surtout les classes posées par les clés des éléments (.st-key-…).
+   Les sélecteurs [data-testid] sont internes à Streamlit : à revérifier après une mise à jour. */
+
+:root {
+  --as-accent: #B66B31;   /* cuivre : soulignement des liens, bord des passages cités */
+}
+
+/* 1. Bandeau : titre, chapeau et avertissement à gauche, illustration posée sur le bord bas à droite */
+.as-bandeau {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  column-gap: 1.5rem;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: #EEE9DE;
+}
+.as-bandeau-sombre {
+  background: #26221B;
+}
+.as-bandeau-texte {
+  flex: 1 1 380px;
+  min-width: 0;
+  align-self: center;
+  padding: 1.75rem 0.5rem 1.75rem 2rem;
+}
+.as-bandeau h1 {
+  margin: 0 0 0.625rem;
+  padding: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.as-bandeau p {
+  max-width: 40rem;
+  margin: 0 0 0.625rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6B675D;
+}
+.as-bandeau-sombre p {
+  color: #A8A49E;
+}
+.as-bandeau p.as-bandeau-avertissement {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.as-bandeau img {
+  flex: 0 1 560px;
+  width: 560px;
+  max-width: 100%;
+  height: auto;
+  margin-right: 1.5rem;
+}
+
+/* 2. Pleine largeur pour un écran de portable : marges réduites.
+      (theme.paddingTop et theme.paddingBottom n'arrivent qu'avec Streamlit 1.66.) */
+[data-testid="stMainBlockContainer"] {
+  max-width: none;
+  padding: 3.75rem 3rem 4rem;
+}
+
+/* 3. Cartes (st.container(border=True, key=…)) */
+.st-key-question,
+.st-key-reponse,
+.st-key-abstention,
+.st-key-attente,
+.st-key-attente_sources {
+  border-radius: 1rem !important;
+}
+.st-key-question,
+.st-key-reponse {
+  box-shadow: 0 1px 2px rgb(23 32 52 / 5%), 0 6px 18px rgb(23 32 52 / 4%);
+}
+.st-key-reponse {
+  padding: 1.375rem 1.5rem !important;
+}
+.st-key-reponse [data-testid="stMarkdownContainer"] p {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+.st-key-abstention,
+.st-key-attente,
+.st-key-attente_sources {
+  border-style: dashed !important;
+}
+
+/* 4. Bouton « Répondre » : cible de 44 px de haut */
+.st-key-repondre button {
+  min-height: 2.75rem;
+  font-weight: 600;
+}
+
+/* 5. Liens : texte couleur encre (theme.linkColor), soulignement fin couleur cuivre */
+[data-testid="stMarkdownContainer"] a {
+  text-decoration-color: var(--as-accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+[data-testid="stMarkdownContainer"] a:hover {
+  text-decoration-thickness: 2.5px;
+}
+
+/* 6. Passages : les cités (clés cite_S1…) mis en avant, l'intitulé de section atténué */
+[class*="st-key-cite_"] details {
+  border-color: var(--as-accent) !important;
+}
+[class*="st-key-cite_"] summary {
+  background: color-mix(in srgb, var(--as-accent) 9%, transparent);
+}
+[class*="st-key-cite_"] summary [data-testid="stIconMaterial"] {
+  color: var(--as-accent);
+}
+[class*="st-key-cite_"] summary em,
+[class*="st-key-lu_"] summary em {
+  font-style: normal;
+  opacity: 0.72;
+}
+[class*="st-key-cite_"] summary code,
+[class*="st-key-lu_"] summary code {
+  font-size: 0.8125rem;   /* 13 px : le numéro S1… reste lisible */
+}
