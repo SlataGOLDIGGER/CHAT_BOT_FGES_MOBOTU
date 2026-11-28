@@ -37,3 +37,17 @@ SEUIL_PERTINENCE = 0.865 ; questions répondables sous le seuil : 1 sur 32 ; que
 Lecture : le seuil ajoute une mention, il n'écarte aucun résultat ; il signale une partie seulement des questions hors corpus, ce qui est attendu d'une similarité cosinus.
 
 Avec ce seuil, la question « Comment demander la prime d'activité pendant mon stage ? », qui reprend le sujet de T3 du test utilisateur, n'est pas signalée : ses cinq résultats ont des scores de 0,868 à 0,883.
+
+## Évaluation finale sur le test scellé (28/11/2026, poste de P4)
+
+Empreinte du test scellé vérifiée avant classement (sha256 `b82a4dcf…`, conforme à `shared/eval/test_scelle.json`). Classements produits par le moteur de production (`pre/fenetre`) via `a3/scripts/classer_production_test.mjs` (code partagé avec le Web Worker, exécuté hors navigateur, sans aucun envoi réseau du test), et par les deux références lexicales (`scripts/classer_lexical.py`), sur les 40 questions de test (30 répondables, 10 hors corpus).
+
+| Système | R@1 | R@5 | R@10 | MRR@10 | nDCG@10 | IC95 nDCG@10 |
+|---|---|---|---|---|---|---|
+| E5 pré-entraîné (production, pre/fenetre) | 0.7333 | 0.9667 | 0.9833 | 0.8889 | 0.8978 | [0.8300, 0.9558] |
+| BM25 (fenetre) | 0.8333 | 1.0000 | 1.0000 | 0.9361 | 0.9521 | [0.8951, 1.0000] |
+| TF-IDF (fenetre) | 0.7667 | 0.9667 | 1.0000 | 0.8992 | 0.9242 | [0.8552, 0.9833] |
+
+Écarts appariés de nDCG@10 (production moins référence) : contre BM25, −0,054 [IC95 −0,132 ; +0,025], meilleur sur 2 questions, moins bon sur 7 ; contre TF-IDF, −0,026 [IC95 −0,107 ; +0,056], meilleur sur 3 questions, moins bon sur 6.
+
+Lecture : sur le test scellé, le modèle de production obtient un nDCG@10 plus bas que les deux références lexicales, à l'inverse du développement où E5 dominait sur le découpage fenêtre. Les deux écarts restent non conclusifs (intervalles de confiance chevauchant zéro), mais la direction s'inverse par rapport au développement — à documenter comme limite dans la caractérisation des défauts (MOBOTU-81) plutôt qu'à écarter. Classements et détail par question : `C:\Users\prode\nlp_scelle\runs\` (hors dépôt, poste de P4, détenteur du test scellé).
