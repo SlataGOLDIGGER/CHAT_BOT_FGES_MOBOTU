@@ -39,3 +39,7 @@ Environnement : Kaggle, GPU Tesla T4 ; commit des données et des scripts : 5faa
 Lecture : presque tout le gain arrive pendant la première époque (la perte de développement passe de 1,85 à 0,41), la deuxième n'apporte plus qu'un petit mieux (0,40). La perte de développement continue de baisser légèrement, donc pas de signe de surapprentissage sur 2 époques. La perte d'entraînement reste irrégulière d'un pas à l'autre (de 0,06 à 0,43 sur la deuxième époque), comme pendant le micro-essai. Le journal complet, avec la perte de chaque pas, est publié avec l'adaptateur (peft-v1/entrainement.json).
 
 Vérification sur le poste P5 (macOS, Apple A18 Pro, 8 Go) : python -m b1.scripts.telecharger_modeles se termine par "OK : b1/models/adaptateur-v1.gguf" (empreinte vérifiée) et python -m b1.scripts.lancer_serveur --adaptateur b1/models/adaptateur-v1.gguf affiche "Serveur prêt sur http://127.0.0.1:8080 en 23 s".
+
+## Itération (MOBOTU-73, 28/11/2026)
+
+Décision D15 : v1 confirmée, sans entraînement de v2 (calendrier, voir docs/decisions.md). models.lock.json désigne adaptateur-v1.gguf (révision c97bf3bfa8ef0cd29bfecdfd5a1faea507c791ac).
