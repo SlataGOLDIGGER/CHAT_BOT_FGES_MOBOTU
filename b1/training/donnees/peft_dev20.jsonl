@@ -1,0 +1,20 @@
+{"id": "dev-P2-001", "type": "reponse", "texte": "L'employeur doit respecter un délai de carence entre 2 stages à un même poste : il est de 1/3 de la durée du stage précédent [S5]. Par exemple, après un stage de six mois, l'employeur doit attendre deux mois avant d'accueillir un nouveau stagiaire sur le même poste [S5]. Cette obligation ne s'applique pas si le stagiaire interrompt lui-même le stage [S5]."}
+{"id": "dev-P2-002", "type": "reponse", "texte": "Le stagiaire bénéficie du remboursement d'une part des frais de transport dans les mêmes conditions que les salariés [S1]."}
+{"id": "dev-P2-003", "type": "reponse", "texte": "Non, elle ne peut pas confier au stagiaire des tâches dangereuses pour sa santé ou sa sécurité [S1]."}
+{"id": "dev-P2-004", "type": "reponse", "texte": "Oui, le stage est validé par l'établissement d'enseignement en cas d'interruption pour cause de maladie [S1]."}
+{"id": "dev-P2-005", "type": "reponse", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-006", "type": "reponse", "texte": "Il doit passer une visite médicale s'il a la possibilité de travailler sur des machines pendant son stage [S1]."}
+{"id": "dev-P2-007", "type": "reponse", "texte": "Non, le stage ne doit pas dépasser 35 heures par semaine [S1]."}
+{"id": "dev-P2-008", "type": "reponse", "texte": "La gratification est de 4,50 € par heure de présence [S1]."}
+{"id": "dev-P3-001", "type": "reponse", "texte": "Elle est versée à la fin de chaque mois et non pas en fin de stage [S1]."}
+{"id": "dev-P3-002", "type": "reponse", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-009", "type": "abstention_hors_corpus", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-010", "type": "abstention_hors_corpus", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P3-009", "type": "abstention_hors_corpus", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P3-010", "type": "abstention_hors_corpus", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P5-009", "type": "abstention_hors_corpus", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-003-sans-or", "type": "abstention_contexte", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-004-sans-or", "type": "abstention_contexte", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-006-sans-or", "type": "abstention_contexte", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P2-008-sans-or", "type": "abstention_contexte", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
+{"id": "dev-P3-003-sans-or", "type": "abstention_contexte", "texte": "Je ne trouve pas cette information dans les fiches du corpus."}
